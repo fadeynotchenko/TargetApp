@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Target
+
+  Created by Fadey Notchenko on 29.01.2023.
+  
+*/
+//Global
+"close" = "Close";
+
+//Content View
+"archive" = "Archive";
+
+//new target
+"new_target" = "New Target";
+"color_picker" = "Progress Color";
+"target_name_hint" = "Title";
+"currency" = "Currency";
+"price" = "How much do you want to save?";
+"current" = "How much have you already saved?";
+"reminders" = "Reminders";
+"one_in" = "One in";
+"never" = "Never";
+"save" = "Save";
+"edit" = "Edit";
+"add" = "Add";
+"day" = "Day";
+"week" = "Week";
+"month" = "Month";
+"repeat" = "Repeat";
+"rep" = "How much do you want to save?";
+"date" = "Date";

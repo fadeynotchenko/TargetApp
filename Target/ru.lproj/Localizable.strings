@@ -1,0 +1,33 @@
+/* 
+  Localizable.strings
+  Target
+
+  Created by Fadey Notchenko on 29.01.2023.
+  
+*/
+//Global
+"close" = "Закрыть";
+
+//Content View
+"archive" = "Архив";
+
+//New Target
+"new_target" = "Новая Цель";
+"color_picker" = "Цвет прогресса";
+"target_name_hint" = "Название";
+"currency" = "Валюта";
+"price" = "Сколько хотите накопить?";
+"current" = "Сколько уже накопили?";
+"reminders" = "Напоминания";
+"one_in" = "Раз в";
+"never" = "Никогда";
+"save" = "Сохранить";
+"edit" = "Изменить";
+"add" = "Добавить";
+"rep" = "Какую сумму хотите откладывать?";
+"day" = "День";
+"week" = "Неделю";
+"month" = "Месяц";
+"repeat" = "Повтор";
+"rep" = "Какую сумму хотите откладывать?";
+"date" = "Дата";

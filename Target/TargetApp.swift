@@ -14,6 +14,7 @@ struct TargetApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

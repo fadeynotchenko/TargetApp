@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import SwiftUI
 
 struct PersistenceController {
     static let shared = PersistenceController()
@@ -13,22 +14,38 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-        }
+        
+        let target = Target(context: viewContext)
+        target.id = UUID()
+        target.dateStart = Date()
+        target.name = "Test Target"
+        target.price = 1000
+        target.currentMoney = 750
+        target.color = UIColor.systemCyan.encode()
+        
         do {
             try viewContext.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            print(error.localizedDescription)
         }
         return result
     }()
 
     let container: NSPersistentContainer
+    
+    static func deleteTarget(_ target: Target, context: NSManagedObjectContext) {
+        context.delete(target)
+        
+        save(context: context)
+    }
+    
+    static func save(context: NSManagedObjectContext) {
+        do {
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Target")
