@@ -21,6 +21,7 @@ extension TargetEntity {
     @NSManaged public var currentMoney: Int64
     @NSManaged public var dateFinish: Date?
     @NSManaged public var dateStart: Date?
+    @NSManaged public var dateNotification: Date?
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
     @NSManaged public var period: String?
@@ -38,6 +39,10 @@ extension TargetEntity {
     
     public var unwrappedDateStart: Date {
         dateStart ?? Date()
+    }
+    
+    public var unwrappedDateNotification: Date {
+        dateNotification ?? Date()
     }
     
     public var unwrappedID: UUID {

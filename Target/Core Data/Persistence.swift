@@ -23,17 +23,50 @@ struct PersistenceController {
         target.currentMoney = 750
         target.color = UIColor.purple.encode()
         
+        for i in 1...3 {
+            let action = ActionEntity(context: viewContext)
+            action.id = UUID()
+            action.date = Date().stripTime()
+            action.value = Int64(i * 50)
+            action.action = Action.plus.rawValue
+            
+            target.addToActions(action)
+        }
+        
+        //
+        
+        let target2 = TargetEntity(context: viewContext)
+        target2.id = UUID()
+        target2.dateStart = Date().addingTimeInterval(-10000000)
+        target2.name = "Test Target"
+        target2.price = 20000
+        target2.currentMoney = 14000
+        target2.color = UIColor.orange.encode()
+        
+        for i in 1...3 {
+            let action = ActionEntity(context: viewContext)
+            action.id = UUID()
+            action.date = Date().stripTime()
+            action.value = Int64(i * 50)
+            action.action = Action.plus.rawValue
+            
+            target2.addToActions(action)
+        }
+        
         do {
             try viewContext.save()
         } catch {
             print(error.localizedDescription)
         }
+        
         return result
     }()
 
     let container: NSPersistentContainer
     
     static func deleteTarget(_ target: TargetEntity, context: NSManagedObjectContext) {
+        NotificationHandler.deleteNotification(by: target.unwrappedID.uuidString)
+        
         context.delete(target)
         
         save(context: context)

@@ -22,10 +22,11 @@ struct NewTargetView: View {
     @State private var currentMoney: NSNumber?
     @State private var replenishment: NSNumber?
     
-    @State private var color: Color = .blue
+    @State private var color: Color = .pink
     @State private var date = Date()
     
     @State private var isDatePickerShow = false
+    @State private var isNotificationsOn = false
     
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -36,25 +37,28 @@ struct NewTargetView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section {
-                    TextField("target_name_hint", text: $newName)
+                Group {
+                    Section {
+                        TextField("target_name_hint", text: $newName)
+                    }
+                    
+                    CurrencyAndPriceSection
+                    
+                    NavigationLink {
+                        NotificationView(replishment: $replenishment, period: $period, date: $date, isDatePickerShow: $isDatePickerShow, isNotificationsOn: $isNotificationsOn)
+                    } label: {
+                        NotificationViewLabel
+                    }
+                    
+                    Section {
+                        ColorPicker("color_picker", selection: $color)
+                    }
+                    
+                    SaveButton
                 }
-                
-                CurrencyAndPriceSection
-                
-                NavigationLink {
-                    NotificationView(replishment: $replenishment, period: $period, date: $date, isDatePickerShow: $isDatePickerShow)
-                } label: {
-                    NotificationViewLabel
-                }
-                
-                Section {
-                    ColorPicker("color_picker", selection: $color)
-                }
-                
-                SaveButton
             }
             .navigationBarTitle(Text(self.editTarget == nil ? "new_target" : "edit"), displayMode: .inline)
+            ._safeAreaInsets(EdgeInsets(top: -30, leading: 0, bottom: 0, trailing: 0))
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("close") {
@@ -68,11 +72,17 @@ struct NewTargetView: View {
             if let target = editTarget {
                 self.newName = target.unwrappedName
                 self.currency = Currency(rawValue: target.unwrappedCurrency) ?? .rub
-                self.period = Period(rawValue: target.unwrappedPeriod) ?? .never
                 self.price = (target.price) as NSNumber
                 self.currentMoney = (target.currentMoney) as NSNumber
-                self.replenishment = (target.replenishment) as NSNumber
                 self.color = Color(uiColor: UIColor.color(withData: target.unwrappedColor))
+                
+                if target.replenishment != 0 {
+                    self.replenishment = (target.replenishment) as NSNumber
+                    self.period = Period(rawValue: target.unwrappedPeriod) ?? .never
+                    self.date = target.dateStart ?? Date()
+                    
+                    self.isNotificationsOn = true
+                }
             }
         }
     }
@@ -93,9 +103,11 @@ struct NewTargetView: View {
             }
             
             FormatSumTextField(numberValue: $price, placeholder: NSLocalizedString("price", comment: ""), numberFormatter: valueFormatter )
+                .keyboardType(.numberPad)
             
             if self.editTarget == nil {
                 FormatSumTextField(numberValue: $currentMoney, placeholder: NSLocalizedString("current", comment: ""), numberFormatter: valueFormatter)
+                    .keyboardType(.numberPad)
             }
         }
     }
@@ -121,7 +133,9 @@ struct NewTargetView: View {
     private var SaveButton: some View {
         Section {
             Button {
-                if editTarget == nil {
+                if let editTarget = self.editTarget {
+                    updateTarget(editTarget)
+                } else {
                     saveNewTarget()
                 }
             } label: {
@@ -140,7 +154,7 @@ extension NewTargetView {
         let target = TargetEntity(context: viewContext)
         
         target.id = UUID()
-        target.dateStart = Date()
+        target.dateStart = Date().addingTimeInterval(-1)
         target.name = self.newName
         target.price = Int64(truncating: self.price ?? 0)
         target.currentMoney = Int64(truncating: self.currentMoney ?? 0)
@@ -149,10 +163,34 @@ extension NewTargetView {
         target.color = UIColor(self.color).encode()
 
         //add notification
-        if let replishment = self.replenishment, replishment != 0, self.isDatePickerShow {
+        if let replishment = self.replenishment, replishment != 0, self.isNotificationsOn {
             target.replenishment = Int64(truncating: replishment)
+            target.dateNotification = self.date
             
-            NotificationHandler.sendNotification(target, dateStart: self.date)
+            NotificationHandler.sendNotification(target)
+        } else {
+            NotificationHandler.deleteNotification(by: target.unwrappedID.uuidString)
+        }
+        
+        PersistenceController.save(context: viewContext)
+        
+        self.isNewTargetViewShow.toggle()
+    }
+    
+    func updateTarget(_ target: TargetEntity) {
+        target.name = self.newName
+        target.price = Int64(truncating: self.price ?? 0)
+        target.period = self.period.rawValue
+        target.color = UIColor(self.color).encode()
+
+        //add notification
+        NotificationHandler.deleteNotification(by: target.unwrappedID.uuidString)
+        
+        if let replishment = self.replenishment, replishment != 0, self.isNotificationsOn {
+            target.replenishment = Int64(truncating: replishment)
+            target.dateNotification = self.date
+            
+            NotificationHandler.sendNotification(target)
         }
         
         PersistenceController.save(context: viewContext)
@@ -167,58 +205,66 @@ private struct NotificationView: View {
     @Binding var period: Period
     @Binding var date: Date
     @Binding var isDatePickerShow: Bool
+    @Binding var isNotificationsOn: Bool
     
     @Environment(\.colorScheme) private var scheme
     
     var body: some View {
         Form {
             Section {
-                FormatSumTextField(numberValue: $replishment, placeholder: NSLocalizedString("rep", comment: ""), numberFormatter: valueFormatter)
+                Toggle(isOn: $isNotificationsOn) {
+                    Text("Включить уведомления")
+                }
             }
             
-            Section {
+            if self.isNotificationsOn {
+                Section {
+                    FormatSumTextField(numberValue: $replishment, placeholder: NSLocalizedString("rep", comment: ""), numberFormatter: valueFormatter)
+                        .keyboardType(.numberPad)
+                }
                 
-                Picker(selection: $period) {
-                    ForEach(Period.allCases, id: \.self) { period in
-                        Button {
-                            self.period = period
-                        } label: {
-                            if period == Period.never {
-                                Text(NSLocalizedString(period.rawValue, comment: ""))
-                            } else {
-                                Text("\(NSLocalizedString("one_in", comment: "")) \(NSLocalizedString(period.rawValue, comment: ""))")
+                Section {
+                    Picker(selection: $period) {
+                        ForEach(Period.allCases, id: \.self) { period in
+                            Button {
+                                self.period = period
+                            } label: {
+                                if period == Period.never {
+                                    Text(NSLocalizedString(period.rawValue, comment: ""))
+                                } else {
+                                    Text("\(NSLocalizedString("one_in", comment: "")) \(NSLocalizedString(period.rawValue, comment: ""))")
+                                }
                             }
                         }
+                    } label: {
+                        HStack(spacing: 10) {
+                            RectangleIcon(systemName: "arrow.triangle.2.circlepath", color: .gray)
+                            
+                            Text("repeat")
+                        }
                     }
-                } label: {
-                    HStack(spacing: 10) {
-                        RectangleIcon(systemName: "arrow.triangle.2.circlepath", color: .gray)
-                        
-                        Text("repeat")
-                            .foregroundColor(scheme == .light ? .black : .white)
-                    }
-                }
-                .currentPickerStyle()
-                .foregroundColor(.gray)
-            }
-            
-            Section {
-                Toggle(isOn: $isDatePickerShow) {
-                    HStack(spacing: 10) {
-                        RectangleIcon(systemName: "calendar", color: .red) 
-                        
-                        Text("date")
-                    }
+                    .currentPickerStyle()
                 }
                 
-                if self.isDatePickerShow {
-                    DatePicker("", selection: $date, displayedComponents: .date)
-                        .datePickerStyle(.graphical)
+                Section {
+                    Toggle(isOn: $isDatePickerShow) {
+                        HStack(spacing: 10) {
+                            RectangleIcon(systemName: "calendar", color: .red)
+                            
+                            Text("date")
+                        }
+                    }
+                    
+                    if self.isDatePickerShow {
+                        DatePicker("", selection: $date, displayedComponents: .date)
+                            .datePickerStyle(.graphical)
+                    }
                 }
             }
         }
         .navigationBarTitle(Text("reminders"), displayMode: .inline)
-        .onAppear {
+        ._safeAreaInsets(EdgeInsets(top: -30, leading: 0, bottom: 0, trailing: 0))
+        .onChange(of: self.isNotificationsOn) { _ in
             NotificationHandler.requestPermission() { _ in }
         }
     }

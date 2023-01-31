@@ -10,6 +10,7 @@ import SwiftUI
 struct TargetDetailView: View {
     
     @ObservedObject var target: TargetEntity
+    @Binding var isNavLinkActive: Bool
     
     @State private var isEditTargetViewShow = false
     
@@ -17,7 +18,10 @@ struct TargetDetailView: View {
     
     @State private var action: Action = .minus
     
+    @State private var dateNextNotification: Date?
+    
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dismiss) private var dismiss
     
     private var percent: Int {
         guard target.price != 0 else { return 0 }
@@ -26,33 +30,47 @@ struct TargetDetailView: View {
     }
     
     var body: some View {
-        Form {
-            ProgressSection
-            
-            NavigationLink {
-                ActionView(target: self.target)
-            } label: {
-                ActionViewSection
-            }
-            
-            TimeAgoSection
-            
-            NavigationLink {
-                
-            } label: {
-                ActionHistorySection
-            }
-        }
-        .navigationBarTitle(Text(target.unwrappedName), displayMode: .large)
-        .frame(maxWidth: Constants.isPhone ? .infinity : 450)
-        .sheet(isPresented: $isEditTargetViewShow) {
-            NewTargetView(editTarget: self.target, isNewTargetViewShow: $isEditTargetViewShow)
-        }
-        .toolbar {
-            ToolbarItem {
-                Button("edit") {
-                    self.isEditTargetViewShow.toggle()
+        GeometryReader { reader in
+            if !isNavLinkActive {
+                Form {
+                    ProgressSection
+                    
+                    NavigationLink {
+                        ActionView(target: self.target)
+                    } label: {
+                        ActionViewSection
+                    }
+                    
+                    TimeAgoSection
+                    
+                    NavigationLink {
+                        ActionsHistory(target: self.target)
+                    } label: {
+                        ActionHistorySection
+                    }
+                    
+                    if let dateNext = self.dateNextNotification {
+                        NotificationSection(dateNext)
+                    }
                 }
+                .navigationBarTitle(Text(target.unwrappedName), displayMode: .large)
+                .sheet(isPresented: $isEditTargetViewShow) {
+                    NewTargetView(editTarget: self.target, isNewTargetViewShow: $isEditTargetViewShow)
+                }
+                .toolbar {
+                    ToolbarItem {
+                        Button("edit") {
+                            self.isEditTargetViewShow.toggle()
+                        }
+                    }
+                }
+                .onAppear {
+                    self.getNotificationInfo()
+                }
+            } else {
+                Text("placeholder")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    .navigationBarTitle(Text(""))
             }
         }
     }
@@ -65,14 +83,16 @@ struct TargetDetailView: View {
                     .padding(.top)
                 
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Progress:")
+                    Text("progress")
                         .foregroundColor(.gray)
                     
                     Text("\(target.currentMoney) / \(target.price) \(target.unwrappedCurrency)")
                         .bold()
                         .font(.title3)
                     
-                    CapsuleProgress(target: self.target)
+                    GeometryReader { reader in
+                        CapsuleProgress(target: self.target, width: min(reader.size.width / 1.5, 180))
+                    }
                 }
             }
         }
@@ -87,7 +107,7 @@ struct TargetDetailView: View {
                     .padding(.top)
                 
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Left:")
+                    Text("left")
                         .foregroundColor(.gray)
                     
                     Text("\(target.price - target.currentMoney) \(target.unwrappedCurrency)")
@@ -97,7 +117,7 @@ struct TargetDetailView: View {
                 
                 Spacer()
                 
-                Text("Actions")
+                Text("actions")
                     .foregroundColor(.gray)
             }
         }
@@ -111,7 +131,7 @@ struct TargetDetailView: View {
                     .padding(.top)
                 
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Ago:")
+                    Text("created")
                         .foregroundColor(.gray)
                     
                     Text(target.unwrappedDateStart.timeAgoDisplay())
@@ -129,28 +149,49 @@ struct TargetDetailView: View {
                     .frame(maxHeight: .infinity, alignment: .top)
                     .padding(.top)
                 
-                Text("Action history (\(self.target.arrayOfActions.count))")
+                Text("\(NSLocalizedString("history", comment: "")) (\(self.target.arrayOfActions.count))")
                     .bold()
                     .font(.title3)
+            }
+        }
+    }
+    
+    private func NotificationSection(_ dateNext: Date) -> some View {
+        Section {
+            HStack(spacing: 10) {
+                RectangleIcon(systemName: "bell.badge.fill", color: .red)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                    .padding(.top)
+                
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Next notification:")
+                        .foregroundColor(.gray)
+                    
+                    Text(dateNext, format: .dateTime.year().month().day().hour().minute())
+                        .bold()
+                        .font(.title3)
+                }
             }
         }
     }
 }
 
 extension TargetDetailView {
-    private func calculateProgress(_ price: Int64, _ current: Int64) {
-        guard price != 0 else { return }
-        
-        withAnimation(.easeInOut(duration: 2.0)) {
-            progress = CGFloat(current * 100 / price) / 100
-        }
-        
-        checkFinish(price, current)
-    }
-    
     private func checkFinish(_ price: Int64, _ current: Int64) {
         if current >= price {
             
+        }
+    }
+    
+    private func getNotificationInfo() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            guard let request = requests.filter({ $0.identifier == target.unwrappedID.uuidString }).first else { return }
+            
+            guard let trigger = request.trigger as? UNCalendarNotificationTrigger else { return }
+            
+            guard let date = trigger.nextTriggerDate() else { return }
+            
+            self.dateNextNotification = date
         }
     }
 }
@@ -159,7 +200,7 @@ extension TargetDetailView {
 struct TargetDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext) 
     }
 }
 #endif

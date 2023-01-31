@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CapsuleProgress: View {
     @ObservedObject var target: TargetEntity
+    let width: CGFloat
     
     //with animation
     @State private var percent: CGFloat = 0
@@ -22,7 +23,7 @@ struct CapsuleProgress: View {
                 HStack {
                     Capsule()
                         .fill(.gray.opacity(0.2))
-                        .frame(width: 180, height: 12)
+                        .frame(width: width, height: 12)
                     
                     Text("(\(Int(percentInt)) %)")
                         .foregroundColor(.gray)
@@ -32,7 +33,7 @@ struct CapsuleProgress: View {
             
             Capsule()
                 .fill(Color(UIColor.color(withData: target.unwrappedColor)))
-                .frame(width: percent / 100 * 180, height: 12)
+                .frame(width: percent / 100 * width, height: 12)
         }
         .onAppear {
             calculatePercent(price: target.price, current: target.currentMoney)

@@ -31,8 +31,8 @@ class NotificationHandler {
         }
     }
     
-    static func sendNotification(_ target: TargetEntity, dateStart: Date) {
-        let dateComponents = getDateComponents(selection: Period(rawValue: target.period!)!)
+    static func sendNotification(_ target: TargetEntity) {
+        let dateComponents = getDateComponents(selection: Period(rawValue: target.period!)!, date: target.unwrappedDateNotification)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: target.unwrappedPeriod != Period.never.rawValue)
         
         let content = UNMutableNotificationContent()
@@ -51,17 +51,17 @@ class NotificationHandler {
         center.removePendingNotificationRequests(withIdentifiers: [id])
     }
     
-    public static func getDateComponents(selection: Period) -> DateComponents {
+    public static func getDateComponents(selection: Period, date: Date) -> DateComponents {
         var dateComponents = DateComponents()
         dateComponents.timeZone = .current
-        dateComponents.hour = 12
+        dateComponents = Calendar.current.dateComponents([.hour], from: date)
         
         switch selection {
         case .week:
-            dateComponents = Calendar.current.dateComponents([.weekday], from: Date())
+            dateComponents = Calendar.current.dateComponents([.weekday, .hour], from: date)
             return dateComponents
         case .month:
-            dateComponents = Calendar.current.dateComponents([.day], from: Date())
+            dateComponents = Calendar.current.dateComponents([.day, .hour], from: date)
             return dateComponents
         default:
             break

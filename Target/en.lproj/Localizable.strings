@@ -31,3 +31,18 @@
 "repeat" = "Repeat";
 "rep" = "How much do you want to save?";
 "date" = "Date";
+
+//detailed view
+"progress" = "Progress:";
+"left" = "Remaining:";
+"actions" = "actions";
+"created" = "Created by:";
+"history" = "History of actions";
+
+//Action
+"minus" = "Subtract";
+"plus" = "Add";
+"minus_tf" = "How much to get from the piggy bank?";
+"plus_tf" = "How much to put in the piggy bank?";
+"comment" = "Comment:";
+"actions" = "Actions";

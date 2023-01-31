@@ -20,6 +20,7 @@ extension ActionEntity {
     @NSManaged public var date: Date?
     @NSManaged public var id: UUID?
     @NSManaged public var action: String?
+    @NSManaged public var comment: String?
     @NSManaged public var relationship: TargetEntity?
 
     public var unwrappedDate: Date {
