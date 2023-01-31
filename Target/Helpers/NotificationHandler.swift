@@ -11,13 +11,13 @@ import CoreData
 
 class NotificationHandler {
     
-    static func requestPermission() {
+    static func requestPermission(_ completion: @escaping (Bool) -> ()) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { succes, error in
-            if succes {
-                print("allow")
-            } else if let error = error {
+            if let error = error {
                 print(error.localizedDescription)
             }
+            
+            completion(succes)
         }
     }
     
@@ -31,16 +31,16 @@ class NotificationHandler {
         }
     }
     
-    static func sendNotification(_ target: Target, dateStart: Date) {
-        let dateComponents = calculateDate(selection: Period(rawValue: target.period!)!)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+    static func sendNotification(_ target: TargetEntity, dateStart: Date) {
+        let dateComponents = getDateComponents(selection: Period(rawValue: target.period!)!)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: target.unwrappedPeriod != Period.never.rawValue)
         
         let content = UNMutableNotificationContent()
-        content.title = target.name
-        content.body = bodyString(target)
+        content.title = target.unwrappedName
+        content.body = getBody(target)
         content.sound = .default
         
-        let request = UNNotificationRequest(identifier: target.id.uuidString, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: target.unwrappedID.uuidString, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request)
     }
@@ -51,18 +51,29 @@ class NotificationHandler {
         center.removePendingNotificationRequests(withIdentifiers: [id])
     }
     
-    public static func calculateDate(selection: Period) -> DateComponents {
+    public static func getDateComponents(selection: Period) -> DateComponents {
         var dateComponents = DateComponents()
         dateComponents.timeZone = .current
         dateComponents.hour = 12
         
+        switch selection {
+        case .week:
+            dateComponents = Calendar.current.dateComponents([.weekday], from: Date())
+            return dateComponents
+        case .month:
+            dateComponents = Calendar.current.dateComponents([.day], from: Date())
+            return dateComponents
+        default:
+            break
+        }
+        
         return dateComponents
     }
     
-    private static func bodyString(_ target: Target) -> String {
+    private static func getBody(_ target: TargetEntity) -> String {
         var str = ""
         
-        str += " \(NSLocalizedString("nottext", comment: "")) \(target.price) \(target.currency)"
+        str += " \(NSLocalizedString("nottext", comment: "")) \(target.price) \(String(describing: target.currency))"
         return str
     }
 }

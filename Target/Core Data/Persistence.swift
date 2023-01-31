@@ -15,13 +15,13 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         
-        let target = Target(context: viewContext)
+        let target = TargetEntity(context: viewContext)
         target.id = UUID()
-        target.dateStart = Date()
+        target.dateStart = Date().addingTimeInterval(-1000000)
         target.name = "Test Target"
         target.price = 1000
         target.currentMoney = 750
-        target.color = UIColor.systemCyan.encode()
+        target.color = UIColor.purple.encode()
         
         do {
             try viewContext.save()
@@ -33,7 +33,7 @@ struct PersistenceController {
 
     let container: NSPersistentContainer
     
-    static func deleteTarget(_ target: Target, context: NSManagedObjectContext) {
+    static func deleteTarget(_ target: TargetEntity, context: NSManagedObjectContext) {
         context.delete(target)
         
         save(context: context)

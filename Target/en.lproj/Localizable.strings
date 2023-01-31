@@ -10,6 +10,7 @@
 
 //Content View
 "archive" = "Archive";
+"app_name" = "Piggy Bank";
 
 //new target
 "new_target" = "New Target";

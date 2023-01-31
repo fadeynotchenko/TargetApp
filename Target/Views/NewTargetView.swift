@@ -10,7 +10,7 @@ import AnyFormatKitSwiftUI
 
 struct NewTargetView: View {
     
-    let isEditMode: Bool
+    var editTarget: TargetEntity?
     @Binding var isNewTargetViewShow: Bool
     
     @State private var newName = ""
@@ -30,7 +30,7 @@ struct NewTargetView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     private var isSaveButtonDisabled: Bool {
-        self.newName.isEmpty || self.price == nil
+        self.newName.isEmpty || self.price == nil || self.price == 0
     }
     
     var body: some View {
@@ -54,7 +54,7 @@ struct NewTargetView: View {
                 
                 SaveButton
             }
-            .navigationBarTitle(Text(self.isEditMode ? "edit" : "new_target"), displayMode: .inline)
+            .navigationBarTitle(Text(self.editTarget == nil ? "new_target" : "edit"), displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("close") {
@@ -64,11 +64,22 @@ struct NewTargetView: View {
             }
         }
         .navigationViewStyle(.stack)
+        .onAppear {
+            if let target = editTarget {
+                self.newName = target.unwrappedName
+                self.currency = Currency(rawValue: target.unwrappedCurrency) ?? .rub
+                self.period = Period(rawValue: target.unwrappedPeriod) ?? .never
+                self.price = (target.price) as NSNumber
+                self.currentMoney = (target.currentMoney) as NSNumber
+                self.replenishment = (target.replenishment) as NSNumber
+                self.color = Color(uiColor: UIColor.color(withData: target.unwrappedColor))
+            }
+        }
     }
     
     private var CurrencyAndPriceSection: some View {
         Section {
-            if !self.isEditMode {
+            if self.editTarget == nil {
                 Picker("currency", selection: $currency) {
                     ForEach(Currency.allCases, id: \.self) { currency in
                         Button {
@@ -83,18 +94,17 @@ struct NewTargetView: View {
             
             FormatSumTextField(numberValue: $price, placeholder: NSLocalizedString("price", comment: ""), numberFormatter: valueFormatter )
             
-            if !self.isEditMode {
+            if self.editTarget == nil {
                 FormatSumTextField(numberValue: $currentMoney, placeholder: NSLocalizedString("current", comment: ""), numberFormatter: valueFormatter)
             }
         }
     }
     
     private var NotificationViewLabel: some View {
-        HStack(spacing: 5) {
+        HStack(spacing: 10) {
             RectangleIcon(systemName: "bell.fill", color: .red)
-                .frame(width: 30, height: 30)
             
-            Text("Reminders")
+            Text("reminders")
             
             Spacer()
             
@@ -111,13 +121,13 @@ struct NewTargetView: View {
     private var SaveButton: some View {
         Section {
             Button {
-                if !self.isEditMode {
+                if editTarget == nil {
                     saveNewTarget()
                 }
             } label: {
-                Text(self.isEditMode ? "save" : "add")
+                Text(self.editTarget == nil ? "add" : "save")
                     .bold()
-                    .foregroundColor(isSaveButtonDisabled ? .gray : .blue)
+                    .foregroundColor(isSaveButtonDisabled ? .gray : .accentColor)
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .disabled(isSaveButtonDisabled)
@@ -127,7 +137,7 @@ struct NewTargetView: View {
 
 extension NewTargetView {
     private func saveNewTarget() {
-        let target = Target(context: viewContext)
+        let target = TargetEntity(context: viewContext)
         
         target.id = UUID()
         target.dateStart = Date()
@@ -139,15 +149,15 @@ extension NewTargetView {
         target.color = UIColor(self.color).encode()
 
         //add notification
-        if let replishment = self.replenishment, self.isDatePickerShow {
-            target.replenishment = replishment
+        if let replishment = self.replenishment, replishment != 0, self.isDatePickerShow {
+            target.replenishment = Int64(truncating: replishment)
             
             NotificationHandler.sendNotification(target, dateStart: self.date)
-        } else {
-            
         }
         
         PersistenceController.save(context: viewContext)
+        
+        self.isNewTargetViewShow.toggle()
     }
 }
 
@@ -158,6 +168,8 @@ private struct NotificationView: View {
     @Binding var date: Date
     @Binding var isDatePickerShow: Bool
     
+    @Environment(\.colorScheme) private var scheme
+    
     var body: some View {
         Form {
             Section {
@@ -165,7 +177,8 @@ private struct NotificationView: View {
             }
             
             Section {
-                Picker("repeat", selection: $period) {
+                
+                Picker(selection: $period) {
                     ForEach(Period.allCases, id: \.self) { period in
                         Button {
                             self.period = period
@@ -177,15 +190,22 @@ private struct NotificationView: View {
                             }
                         }
                     }
+                } label: {
+                    HStack(spacing: 10) {
+                        RectangleIcon(systemName: "arrow.triangle.2.circlepath", color: .gray)
+                        
+                        Text("repeat")
+                            .foregroundColor(scheme == .light ? .black : .white)
+                    }
                 }
-                .pickerStyle(.inline)
+                .currentPickerStyle()
+                .foregroundColor(.gray)
             }
             
             Section {
                 Toggle(isOn: $isDatePickerShow) {
-                    HStack(spacing: 5) {
-                        RectangleIcon(systemName: "calendar", color: .red)
-                            .frame(width: 30, height: 30)
+                    HStack(spacing: 10) {
+                        RectangleIcon(systemName: "calendar", color: .red) 
                         
                         Text("date")
                     }
@@ -198,13 +218,16 @@ private struct NotificationView: View {
             }
         }
         .navigationBarTitle(Text("reminders"), displayMode: .inline)
+        .onAppear {
+            NotificationHandler.requestPermission() { _ in }
+        }
     }
 }
 
 #if DEBUG
 struct Previews_NewTargetView_Previews: PreviewProvider {
     static var previews: some View {
-        NewTargetView(isEditMode: false, isNewTargetViewShow: .constant(true))
+        NewTargetView(isNewTargetViewShow: .constant(true))
     }
 }
 #endif

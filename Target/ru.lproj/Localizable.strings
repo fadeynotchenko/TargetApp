@@ -10,6 +10,7 @@
 
 //Content View
 "archive" = "Архив";
+"app_name" = "Копилка";
 
 //New Target
 "new_target" = "Новая Цель";

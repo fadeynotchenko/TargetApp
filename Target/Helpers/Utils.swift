@@ -21,6 +21,11 @@ enum Period: String, CaseIterable, Equatable {
     case month
 }
 
+enum Action: String, CaseIterable {
+    case minus
+    case plus
+}
+
 var valueFormatter: NumberFormatter {
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal
