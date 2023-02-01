@@ -6,13 +6,12 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct TargetDetailView: View {
     
     @ObservedObject var target: TargetEntity
-    @Binding var isNavLinkActive: Bool
-    
-    @State private var isEditTargetViewShow = false
+    @Binding var navSelection: UUID?
     
     @State private var progress: CGFloat = 0
     
@@ -20,8 +19,13 @@ struct TargetDetailView: View {
     
     @State private var dateNextNotification: Date?
     
+    @State private var isEditTargetViewShow = false
+    @State private var isFinishViewShow = false
+    
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.scenePhase) private var scenePhase
     
     private var percent: Int {
         guard target.price != 0 else { return 0 }
@@ -31,12 +35,12 @@ struct TargetDetailView: View {
     
     var body: some View {
         GeometryReader { reader in
-            if !isNavLinkActive {
+            if navSelection == target.unwrappedID {
                 Form {
                     ProgressSection
                     
                     NavigationLink {
-                        ActionView(target: self.target)
+                        ActionView(target: target)
                     } label: {
                         ActionViewSection
                     }
@@ -44,10 +48,11 @@ struct TargetDetailView: View {
                     TimeAgoSection
                     
                     NavigationLink {
-                        ActionsHistory(target: self.target)
+                        ActionsHistory(target: target)
                     } label: {
                         ActionHistorySection
                     }
+                    .disabled(target.arrayOfActions.isEmpty)
                     
                     if let dateNext = self.dateNextNotification {
                         NotificationSection(dateNext)
@@ -55,7 +60,10 @@ struct TargetDetailView: View {
                 }
                 .navigationBarTitle(Text(target.unwrappedName), displayMode: .large)
                 .sheet(isPresented: $isEditTargetViewShow) {
-                    NewTargetView(editTarget: self.target, isNewTargetViewShow: $isEditTargetViewShow)
+                    NewTargetView(editTarget: target, isNewTargetViewShow: $isEditTargetViewShow, navSelection: $navSelection)
+                }
+                .fullScreenCover(isPresented: $isFinishViewShow) {
+                    FinishView(target: target, isFinishViewShow: $isFinishViewShow, navSelection: $navSelection)
                 }
                 .toolbar {
                     ToolbarItem {
@@ -66,6 +74,22 @@ struct TargetDetailView: View {
                 }
                 .onAppear {
                     self.getNotificationInfo()
+                    
+                    self.checkFinish(target.price, target.currentMoney)
+                }
+                .onChange(of: isEditTargetViewShow) { _ in
+                    if self.isEditTargetViewShow == false {
+                        self.getNotificationInfo()
+                    }
+                }
+                .onChange(of: scenePhase) { scene in
+                    self.getNotificationInfo()
+                }
+                .onChange(of: target.currentMoney) { current in
+                    self.checkFinish(target.price, current)
+                }
+                .onChange(of: target.price) { price in
+                    self.checkFinish(price, target.price)
                 }
             } else {
                 Text("placeholder")
@@ -164,7 +188,7 @@ struct TargetDetailView: View {
                     .padding(.top)
                 
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Next notification:")
+                    Text("next_not")
                         .foregroundColor(.gray)
                     
                     Text(dateNext, format: .dateTime.year().month().day().hour().minute())
@@ -179,19 +203,32 @@ struct TargetDetailView: View {
 extension TargetDetailView {
     private func checkFinish(_ price: Int64, _ current: Int64) {
         if current >= price {
-            
+            Task {
+                try await Task.sleep(nanoseconds: 2_000_000_000)
+                
+                self.isFinishViewShow.toggle()
+            }
         }
     }
     
     private func getNotificationInfo() {
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            guard let request = requests.filter({ $0.identifier == target.unwrappedID.uuidString }).first else { return }
             
-            guard let trigger = request.trigger as? UNCalendarNotificationTrigger else { return }
+            if let request = requests.filter({ $0.identifier == target.unwrappedID.uuidString }).first {
+                if let trigger = request.trigger as? UNCalendarNotificationTrigger {
+                    let date = trigger.nextTriggerDate()
+                    
+                    self.dateNextNotification = date
+                    
+                    return
+                }
+            }
             
-            guard let date = trigger.nextTriggerDate() else { return }
+            self.target.replenishment = 0
+            self.target.period = Period.never.rawValue
+            self.target.dateNotification = nil
             
-            self.dateNextNotification = date
+            PersistenceController.save(context: viewContext)
         }
     }
 }
@@ -199,7 +236,10 @@ extension TargetDetailView {
 #if DEBUG
 struct TargetDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let req = NSFetchRequest<NSFetchRequestResult>(entityName: "TargetEntity")
+        let target = try! PersistenceController.preview.container.viewContext.fetch(req).first as! TargetEntity
+        
+        TargetDetailView(target: target, navSelection: .constant(target.unwrappedID))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext) 
     }
 }

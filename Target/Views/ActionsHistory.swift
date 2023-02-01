@@ -24,6 +24,7 @@ struct ActionsHistory: View {
                 ForEach(arrayOfDate, id: \.self) { date in
                     Section {
                         let arrayOfActions = target.arrayOfActions.filter({ $0.unwrappedDate == date })
+                        
                         ForEach(Array(arrayOfActions.enumerated()), id: \.element) { i, action in
                             ActionRow(action)
                             

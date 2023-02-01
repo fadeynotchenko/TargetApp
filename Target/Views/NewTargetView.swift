@@ -12,6 +12,7 @@ struct NewTargetView: View {
     
     var editTarget: TargetEntity?
     @Binding var isNewTargetViewShow: Bool
+    @Binding var navSelection: UUID?
     
     @State private var newName = ""
     
@@ -43,6 +44,12 @@ struct NewTargetView: View {
                     }
                     
                     CurrencyAndPriceSection
+                        .onChange(of: currentMoney) { _ in
+                            let current = Int64(truncating: currentMoney ?? 0)
+                            let price = Int64(truncating: price ?? 0)
+                            
+                            self.currentMoney = min(current, price) as NSNumber
+                        }
                     
                     NavigationLink {
                         NotificationView(replishment: $replenishment, period: $period, date: $date, isDatePickerShow: $isDatePickerShow, isNotificationsOn: $isNotificationsOn)
@@ -55,6 +62,10 @@ struct NewTargetView: View {
                     }
                     
                     SaveButton
+                    
+                    if let target = editTarget {
+                        DeleteButton(target)
+                    }
                 }
             }
             .navigationBarTitle(Text(self.editTarget == nil ? "new_target" : "edit"), displayMode: .inline)
@@ -79,7 +90,11 @@ struct NewTargetView: View {
                 if target.replenishment != 0 {
                     self.replenishment = (target.replenishment) as NSNumber
                     self.period = Period(rawValue: target.unwrappedPeriod) ?? .never
-                    self.date = target.dateStart ?? Date()
+                    
+                    if let date = target.dateNotification {
+                        self.isDatePickerShow = true
+                        self.date = date
+                    }
                     
                     self.isNotificationsOn = true
                 }
@@ -120,7 +135,10 @@ struct NewTargetView: View {
             
             Spacer()
             
-            if self.period == Period.never {
+            if !self.isNotificationsOn {
+                Text("no")
+                    .foregroundColor(.gray)
+            } else if self.period == Period.never {
                 Text(NSLocalizedString(period.rawValue, comment: ""))
                     .foregroundColor(.gray)
             } else {
@@ -145,6 +163,22 @@ struct NewTargetView: View {
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .disabled(isSaveButtonDisabled)
+        }
+    }
+    
+    private func DeleteButton(_ target: TargetEntity) -> some View {
+        Section {
+            Button {
+                PersistenceController.deleteTarget(target, context: viewContext)
+                
+                self.isNewTargetViewShow.toggle()
+                self.navSelection = nil
+            } label: {
+                Text("Удалить")
+                    .foregroundColor(.red)
+                    .bold()
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
         }
     }
 }
@@ -193,7 +227,9 @@ extension NewTargetView {
             NotificationHandler.sendNotification(target)
         }
         
-        PersistenceController.save(context: viewContext)
+        Task {
+            PersistenceController.save(context: viewContext)
+        }
         
         self.isNewTargetViewShow.toggle()
     }
@@ -213,7 +249,7 @@ private struct NotificationView: View {
         Form {
             Section {
                 Toggle(isOn: $isNotificationsOn) {
-                    Text("Включить уведомления")
+                    Text("not_on")
                 }
             }
             
@@ -256,7 +292,7 @@ private struct NotificationView: View {
                     }
                     
                     if self.isDatePickerShow {
-                        DatePicker("", selection: $date, displayedComponents: .date)
+                        DatePicker("", selection: $date)
                             .datePickerStyle(.graphical)
                     }
                 }
@@ -270,10 +306,3 @@ private struct NotificationView: View {
     }
 }
 
-#if DEBUG
-struct Previews_NewTargetView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewTargetView(isNewTargetViewShow: .constant(true))
-    }
-}
-#endif

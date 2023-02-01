@@ -7,12 +7,14 @@
 */
 //Global
 "close" = "Close";
+"placeholder" = "Select a target from the list";
 
 //Content View
 "archive" = "Archive";
 "app_name" = "Piggy Bank";
+"empty" = "List is empty";
 
-//new target
+//New Target
 "new_target" = "New Target";
 "color_picker" = "Progress Color";
 "target_name_hint" = "Title";
@@ -29,15 +31,19 @@
 "week" = "Week";
 "month" = "Month";
 "repeat" = "Repeat";
+"repeats" = "Repeats:";
 "rep" = "How much do you want to save?";
 "date" = "Date";
+"no" = "No";
+"not_on" = "Enable notifications";
 
-//detailed view
+//Detail View
 "progress" = "Progress:";
 "left" = "Remaining:";
 "actions" = "actions";
 "created" = "Created by:";
 "history" = "History of actions";
+"next_not" = "Next reminder:";
 
 //Action
 "minus" = "Subtract";

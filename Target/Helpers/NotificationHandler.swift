@@ -47,6 +47,7 @@ class NotificationHandler {
     
     static func deleteNotification(by id: String) {
         let center = UNUserNotificationCenter.current()
+        
         center.removeDeliveredNotifications(withIdentifiers: [id])
         center.removePendingNotificationRequests(withIdentifiers: [id])
     }
@@ -54,14 +55,17 @@ class NotificationHandler {
     public static func getDateComponents(selection: Period, date: Date) -> DateComponents {
         var dateComponents = DateComponents()
         dateComponents.timeZone = .current
-        dateComponents = Calendar.current.dateComponents([.hour], from: date)
+        dateComponents = Calendar.current.dateComponents([.hour, .day, .minute], from: date)
         
         switch selection {
+        case .day:
+            dateComponents = Calendar.current.dateComponents([.hour, .minute], from: date)
+            return dateComponents
         case .week:
-            dateComponents = Calendar.current.dateComponents([.weekday, .hour], from: date)
+            dateComponents = Calendar.current.dateComponents([.weekday, .hour, .minute], from: date)
             return dateComponents
         case .month:
-            dateComponents = Calendar.current.dateComponents([.day, .hour], from: date)
+            dateComponents = Calendar.current.dateComponents([.day, .hour, .minute], from: date)
             return dateComponents
         default:
             break

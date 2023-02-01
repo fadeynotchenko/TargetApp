@@ -12,7 +12,7 @@
 		430E29FB2986FFE300147C45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 430E29FA2986FFE300147C45 /* Assets.xcassets */; };
 		430E29FE2986FFE300147C45 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 430E29FD2986FFE300147C45 /* Preview Assets.xcassets */; };
 		430E2A002986FFE300147C45 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E29FF2986FFE300147C45 /* Persistence.swift */; };
-		430E2A032986FFE300147C45 /* Target.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 430E2A012986FFE300147C45 /* Target.xcdatamodeld */; };
+		430E2A032986FFE300147C45 /* Target_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 430E2A012986FFE300147C45 /* Target_app.xcdatamodeld */; };
 		430E2A13298708C200147C45 /* NewTargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E2A12298708C200147C45 /* NewTargetView.swift */; };
 		430E2A1829870C4B00147C45 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 430E2A1A29870C4B00147C45 /* Localizable.strings */; };
 		430E2A1E29870CD800147C45 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E2A1D29870CD800147C45 /* Utils.swift */; };
@@ -28,6 +28,7 @@
 		433640482988F0D200AB6862 /* ActionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433640462988F0D200AB6862 /* ActionEntity+CoreDataClass.swift */; };
 		433640492988F0D200AB6862 /* ActionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433640472988F0D200AB6862 /* ActionEntity+CoreDataProperties.swift */; };
 		4336404B298919A300AB6862 /* ActionsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4336404A298919A300AB6862 /* ActionsHistory.swift */; };
+		4341E11D298AE52B001C8130 /* FinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E11C298AE52B001C8130 /* FinishView.swift */; };
 		4343CB452989AB0A00ACCD23 /* ActiveTargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4343CB442989AB0A00ACCD23 /* ActiveTargetsView.swift */; };
 		4343CB472989ABB900ACCD23 /* ArchiveTargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4343CB462989ABB900ACCD23 /* ArchiveTargetsView.swift */; };
 		434814402987E19100FE7C68 /* RectangleIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4348143F2987E19100FE7C68 /* RectangleIcon.swift */; };
@@ -57,6 +58,7 @@
 		433640462988F0D200AB6862 /* ActionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		433640472988F0D200AB6862 /* ActionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4336404A298919A300AB6862 /* ActionsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsHistory.swift; sourceTree = "<group>"; };
+		4341E11C298AE52B001C8130 /* FinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishView.swift; sourceTree = "<group>"; };
 		4343CB442989AB0A00ACCD23 /* ActiveTargetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTargetsView.swift; sourceTree = "<group>"; };
 		4343CB462989ABB900ACCD23 /* ArchiveTargetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTargetsView.swift; sourceTree = "<group>"; };
 		4348143F2987E19100FE7C68 /* RectangleIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleIcon.swift; sourceTree = "<group>"; };
@@ -116,7 +118,7 @@
 		430E2A0D2987019A00147C45 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				430E2A012986FFE300147C45 /* Target.xcdatamodeld */,
+				430E2A012986FFE300147C45 /* Target_app.xcdatamodeld */,
 				430E29FF2986FFE300147C45 /* Persistence.swift */,
 				433640422988F03700AB6862 /* TargetEntity+CoreDataClass.swift */,
 				433640432988F03700AB6862 /* TargetEntity+CoreDataProperties.swift */,
@@ -135,6 +137,7 @@
 				430E2A12298708C200147C45 /* NewTargetView.swift */,
 				4315F79B298832A300F8759B /* TargetDetailView.swift */,
 				4336403A2988E94300AB6862 /* ActionView.swift */,
+				4341E11C298AE52B001C8130 /* FinishView.swift */,
 				4336404A298919A300AB6862 /* ActionsHistory.swift */,
 				4348143F2987E19100FE7C68 /* RectangleIcon.swift */,
 				4336403C2988EC4000AB6862 /* CapsuleProgress.swift */,
@@ -238,12 +241,13 @@
 				433640492988F0D200AB6862 /* ActionEntity+CoreDataProperties.swift in Sources */,
 				4343CB472989ABB900ACCD23 /* ArchiveTargetsView.swift in Sources */,
 				4315F791298823CD00F8759B /* NotificationHandler.swift in Sources */,
-				430E2A032986FFE300147C45 /* Target.xcdatamodeld in Sources */,
+				430E2A032986FFE300147C45 /* Target_app.xcdatamodeld in Sources */,
 				4336403B2988E94300AB6862 /* ActionView.swift in Sources */,
 				4315F79C298832A300F8759B /* TargetDetailView.swift in Sources */,
 				433640452988F03700AB6862 /* TargetEntity+CoreDataProperties.swift in Sources */,
 				4343CB452989AB0A00ACCD23 /* ActiveTargetsView.swift in Sources */,
 				4315F79E2988383E00F8759B /* Constants.swift in Sources */,
+				4341E11D298AE52B001C8130 /* FinishView.swift in Sources */,
 				430E2A232987129900147C45 /* Extensions.swift in Sources */,
 				434814402987E19100FE7C68 /* RectangleIcon.swift in Sources */,
 				4336404B298919A300AB6862 /* ActionsHistory.swift in Sources */,
@@ -397,8 +401,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -428,8 +432,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -487,13 +491,13 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		430E2A012986FFE300147C45 /* Target.xcdatamodeld */ = {
+		430E2A012986FFE300147C45 /* Target_app.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				430E2A022986FFE300147C45 /* Target.xcdatamodel */,
 			);
 			currentVersion = 430E2A022986FFE300147C45 /* Target.xcdatamodel */;
-			path = Target.xcdatamodeld;
+			path = Target_app.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

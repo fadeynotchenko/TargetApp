@@ -12,17 +12,15 @@ struct ContentView: View {
     
     var body: some View {
         if Constants.isPhone {
-            ActiveTargetView()
+            ActiveTargetsView()
         } else {
             TabView {
-                ActiveTargetView()
-                    .tag(0)
+                ActiveTargetsView()
                     .tabItem {
                         Image(systemName: "target")
                     }
                 
                 ArchiveTargetsView()
-                    .tag(1)
                     .tabItem {
                         Image(systemName: "archivebox.fill")
                     }
