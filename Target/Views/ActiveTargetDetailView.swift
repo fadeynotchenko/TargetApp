@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct TargetDetailView: View {
+struct ActiveTargetDetailView: View {
     
     @ObservedObject var target: TargetEntity
     @Binding var navSelection: UUID?
@@ -45,12 +45,12 @@ struct TargetDetailView: View {
                         ActionViewSection
                     }
                     
-                    TimeAgoSection
+                    CreatedTargetSection(target: target)
                     
                     NavigationLink {
-                        ActionsHistory(target: target)
+                        ActionsHistoryView(target: target)
                     } label: {
-                        ActionHistorySection
+                        ActionsHistorySection(target: target)
                     }
                     .disabled(target.arrayOfActions.isEmpty)
                     
@@ -147,39 +147,6 @@ struct TargetDetailView: View {
         }
     }
     
-    private var TimeAgoSection: some View {
-        Section {
-            HStack(spacing: 10) {
-                RectangleIcon(systemName: "clock.fill", color: .gray)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .padding(.top)
-                
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("created")
-                        .foregroundColor(.gray)
-                    
-                    Text(target.unwrappedDateStart.timeAgoDisplay())
-                        .bold()
-                        .font(.title3)
-                }
-            }
-        }
-    }
-    
-    private var ActionHistorySection: some View {
-        Section {
-            HStack(spacing: 10) {
-                RectangleIcon(systemName: "folder.fill", color: .green)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .padding(.top)
-                
-                Text("\(NSLocalizedString("history", comment: "")) (\(self.target.arrayOfActions.count))")
-                    .bold()
-                    .font(.title3)
-            }
-        }
-    }
-    
     private func NotificationSection(_ dateNext: Date) -> some View {
         Section {
             HStack(spacing: 10) {
@@ -200,7 +167,7 @@ struct TargetDetailView: View {
     }
 }
 
-extension TargetDetailView {
+extension ActiveTargetDetailView {
     private func checkFinish(_ price: Int64, _ current: Int64) {
         if current >= price {
             Task {
@@ -239,7 +206,7 @@ struct TargetDetailView_Previews: PreviewProvider {
         let req = NSFetchRequest<NSFetchRequestResult>(entityName: "TargetEntity")
         let target = try! PersistenceController.preview.container.viewContext.fetch(req).first as! TargetEntity
         
-        TargetDetailView(target: target, navSelection: .constant(target.unwrappedID))
+        ActiveTargetDetailView(target: target, navSelection: .constant(target.unwrappedID))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext) 
     }
 }

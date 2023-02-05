@@ -174,7 +174,7 @@ struct NewTargetView: View {
                 self.isNewTargetViewShow.toggle()
                 self.navSelection = nil
             } label: {
-                Text("Удалить")
+                Text("delete")
                     .foregroundColor(.red)
                     .bold()
             }
@@ -306,3 +306,12 @@ private struct NotificationView: View {
     }
 }
 
+#if DEBUG
+struct NewTargetView_Previews: PreviewProvider {
+    static var previews: some View {
+        NewTargetView(isNewTargetViewShow: .constant(true), navSelection: .constant(nil))
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        
+    }
+}
+#endif

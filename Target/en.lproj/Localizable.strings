@@ -36,6 +36,7 @@
 "date" = "Date";
 "no" = "No";
 "not_on" = "Enable notifications";
+"delete" = "Delete";
 
 //Detail View
 "progress" = "Progress:";
@@ -52,3 +53,9 @@
 "plus_tf" = "How much to put in the piggy bank?";
 "comment" = "Comment:";
 "actions" = "Actions";
+
+//Archive
+"accumulated" = "Accumulated:";
+"start" = "Started saving:";
+"finish" = "Finished:";
+"archive_empty" = "Targets you have completed will be displayed here";

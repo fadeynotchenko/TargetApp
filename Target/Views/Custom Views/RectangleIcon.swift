@@ -13,13 +13,13 @@ struct RectangleIcon: View {
     let color: Color
     
     var body: some View {
-        Image(systemName: self.systemName)
+        Image(systemName: systemName)
             .resizable()
             .scaledToFit()
             .foregroundColor(.white)
             .frame(width: 20, height: 20)
             .padding(5)
-            .background(self.color)
+            .background(color)
             .cornerRadius(7)
     }
 }

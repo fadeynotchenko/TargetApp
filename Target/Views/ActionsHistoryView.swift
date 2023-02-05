@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ActionsHistory: View {
+struct ActionsHistoryView: View {
     
     @ObservedObject var target: TargetEntity
     

@@ -15,46 +15,92 @@ struct FinishView: View {
     @Binding var navSelection: UUID?
     
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
-        VStack(spacing: 15) {
-            Text("Поздравляем!")
-                .bold()
-                .font(.title)
-            
-            Text("Вы накопили на свою цель!")
-                .bold()
-                .font(.title2)
-            
-            Text("'\(target.unwrappedName)'")
-                .bold()
-                .font(.title)
-            
-            Spacer()
-            
-            Button {
-                self.target.dateFinish = Date()
-                
-                PersistenceController.save(context: viewContext)
-                
-                self.isFinishViewShow.toggle()
-                self.navSelection = nil
-            } label: {
-                Text("Сохранить")
-                    .bold()
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(Color.accentColor)
-                    .cornerRadius(15)
-                    .shadow(color: .accentColor, radius: 10)
+        GeometryReader { reader in
+            NavigationView {
+                ZStack {
+                    if colorScheme == .light {
+                        Color(uiColor: .secondarySystemBackground).edgesIgnoringSafeArea(.all)
+                    } else {
+                        Color.black
+                    }
+                    
+                    Form {
+                        Section {
+                            VStack(spacing: 5) {
+                                Text("Поздравляем!")
+                                    .bold()
+                                    .font(.title)
+                                
+                                Text("Вы достигли своей цели!")
+                                    .bold()
+                                    .font(.title2)
+                                
+                                Text("'\(target.unwrappedName)'")
+                                    .bold()
+                                    .font(.title)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                        .listRowBackground(Color.clear)
+                        
+                        PriceSection
+                        
+                        CreatedTargetSection(target: target)
+                        
+                        Section {
+                            Button {
+                                self.target.dateFinish = Date()
+                                
+                                PersistenceController.save(context: viewContext)
+                                
+                                self.isFinishViewShow.toggle()
+                                self.navSelection = nil
+                            } label: {
+                                Text("Сохранить")
+                                    .bold()
+                                    .foregroundColor(.accentColor)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                            }
+                        } footer: {
+                            Text("После нажатия на кнопку Ваша цель попадет в архив")
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                    }
+                    .frame(maxWidth: 600)
+                }
             }
-            
-            Text("После нажатия на кнопку Ваша цель попадет в архив")
-                .foregroundColor(.gray)
-                .frame(width: 330)
-                .multilineTextAlignment(.center)
-                .padding(.bottom)
+            .navigationViewStyle(.stack)
         }
+    }
+    
+    private var PriceSection: some View {
+        HStack(spacing: 10) {
+            RectangleIcon(systemName: "sum", color: .accentColor)
+                .frame(maxHeight: .infinity, alignment: .top)
+                .padding(.top)
+            
+            VStack(alignment: .leading, spacing: 5) {
+                Text("Nacopili:")
+                    .foregroundColor(.gray)
+                
+                Text("\(target.price) \(target.unwrappedCurrency)")
+                    .bold()
+                    .font(.title3)
+            }
+        }
+    }
+}
+
+extension FinishView {
+    private func getSpacerLenght(_ height: CGFloat) -> CGFloat {
+        if Constants.isPhone {
+            return height / 3
+        }
+        
+        return height / 2
     }
 }
 

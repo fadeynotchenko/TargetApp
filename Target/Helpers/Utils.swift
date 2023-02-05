@@ -26,6 +26,11 @@ enum Action: String, CaseIterable {
     case plus
 }
 
+enum Tab: CaseIterable {
+    case active
+    case archive
+}
+
 var valueFormatter: NumberFormatter {
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal

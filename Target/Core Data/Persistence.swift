@@ -42,6 +42,7 @@ struct PersistenceController {
         target2.price = 20000
         target2.currentMoney = 14000
         target2.color = UIColor.orange.encode()
+        target.dateFinish = Date().addingTimeInterval(-10000)
         
         for i in 1...3 {
             let action = ActionEntity(context: viewContext)

@@ -10,22 +10,54 @@ import CoreData
 
 struct ContentView: View {
     
+    @State private var selection: Tab = .active
+    
     var body: some View {
-        if Constants.isPhone {
-            ActiveTargetsView()
-        } else {
-            TabView {
+        NavigationView {
+            if Constants.isPhone {
                 ActiveTargetsView()
-                    .tabItem {
-                        Image(systemName: "target")
-                    }
                 
-                ArchiveTargetsView()
-                    .tabItem {
-                        Image(systemName: "archivebox.fill")
+                Text("placeholder")
+            } else {
+                VStack {
+                    switch selection {
+                    case .active:
+                        ActiveTargetsView()
+                    case .archive:
+                        ArchiveTargetsView()
                     }
+                    
+                    Spacer()
+                    
+                    HStack(spacing: 40) {
+                        Button {
+                            self.selection = .active
+                        } label: {
+                            Image(systemName: "target")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(selection == .active ? .accentColor : .gray)
+                                .frame(width: 25, height: 25)
+                        }
+                        
+                        Button {
+                            self.selection = .archive
+                        } label: {
+                            Image(systemName: "archivebox.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(selection == .archive ? .accentColor : .gray)
+                                .frame(width: 25, height: 25)
+                        }
+                    }
+                    .edgesIgnoringSafeArea(.bottom)
+                    .frame(maxWidth: .infinity, maxHeight: 60)
+                    .background(.ultraThickMaterial)
+                }
+                .edgesIgnoringSafeArea(.bottom)
             }
         }
+        .setCurrentNavigationViewStyle()
     }
 }
 

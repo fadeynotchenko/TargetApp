@@ -20,63 +20,63 @@ struct ActiveTargetsView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                List {
-                    if Constants.isPhone {
-                        NavigationLink {
-                            ArchiveTargetsView()
-                        } label: {
-                            ArchiveButtonLabel
-                        }
-                        .isDetailLink(false)
+        ZStack {
+            List {
+                if Constants.isPhone {
+                    NavigationLink {
+                        ArchiveTargetsView()
+                    } label: {
+                        ArchiveButtonLabel
                     }
-                    
-                    ForEach(targets.filter({ $0.dateFinish == nil })) { target in
-                        Section {
-                            NavigationLink(tag: target.unwrappedID, selection: $navSelection) {
-                                TargetDetailView(target: target, navSelection: $navSelection)
-                            } label: {
-                                TargetRow(target)
-                            }
-                            .swipeActions {
-                                DeleteSwipeActionButton(target)
-                            }
-                        }
-                    }
-                }
-                .listStyle(.insetGrouped)
-                .navigationTitle(Text("app_name"))
-                .sheet(isPresented: $isNewTargetViewShow) {
-                    NewTargetView(isNewTargetViewShow: $isNewTargetViewShow, navSelection: $navSelection)
-                }
-                .toolbar {
-                    ToolbarItem {
-                        Button {
-                            self.isNewTargetViewShow.toggle()
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                    }
+                    .isDetailLink(false)
                 }
                 
-                if self.targets.isEmpty {
-                    Text("empty")
+                ForEach(targets.filter({ $0.dateFinish == nil })) { target in
+                    Section {
+                        NavigationLink(tag: target.unwrappedID, selection: $navSelection) {
+                            ActiveTargetDetailView(target: target, navSelection: $navSelection)
+                        } label: {
+                            TargetRow(target)
+                        }
+                        .swipeActions {
+                            DeleteSwipeActionButton(target)
+                        }
+                    }
+                }
+            }
+            .listStyle(.insetGrouped)
+            .navigationTitle(Text("app_name"))
+            .sheet(isPresented: $isNewTargetViewShow) {
+                NewTargetView(isNewTargetViewShow: $isNewTargetViewShow, navSelection: $navSelection)
+            }
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        self.isNewTargetViewShow.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
             
-            Text("placholder")
+            if self.targets.isEmpty {
+                Text("empty")
+            }
         }
-        .setCurrentNavigationViewStyle()
     }
     
     private var ArchiveButtonLabel: some View {
         HStack(spacing: 10) {
             RectangleIcon(systemName: "archivebox.fill", color: .accentColor)
             
-            Text("\(NSLocalizedString("archive", comment: "")) (\(targets.filter({ $0.dateFinish != nil}).count))")
+            Text(NSLocalizedString("archive", comment: ""))
                 .bold()
                 .font(.title3)
+            
+            Spacer()
+            
+            Text("(\(targets.filter({ $0.dateFinish != nil}).count))")
+                .foregroundColor(.gray)
         }
         .padding(.vertical, 5)
     }
