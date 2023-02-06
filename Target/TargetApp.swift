@@ -9,13 +9,15 @@ import SwiftUI
 
 @main
 struct TargetApp: App {
-    let persistenceController = PersistenceController.shared
-
+    
+    @StateObject private var storeVM = StoreViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+                .environmentObject(storeVM)
         }
     }
 }

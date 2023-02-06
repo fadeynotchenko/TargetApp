@@ -14,10 +14,12 @@ struct ActiveTargetsView: View {
     private var targets: FetchedResults<TargetEntity>
     
     @State private var isNewTargetViewShow = false
+    @State private var isProVersionViewShow = false
     
     @State private var navSelection: UUID?
     
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject private var storeVM: StoreViewModel
     
     var body: some View {
         ZStack {
@@ -49,12 +51,25 @@ struct ActiveTargetsView: View {
             .sheet(isPresented: $isNewTargetViewShow) {
                 NewTargetView(isNewTargetViewShow: $isNewTargetViewShow, navSelection: $navSelection)
             }
+            .sheet(isPresented: $isProVersionViewShow) {
+                ProVersionView(isProVersionViewShow: $isProVersionViewShow)
+            }
             .toolbar {
                 ToolbarItem {
                     Button {
-                        self.isNewTargetViewShow.toggle()
+                        if targets.filter({ $0.dateFinish == nil }).count >= 1 && storeVM.purchased.isEmpty {
+                            self.isProVersionViewShow.toggle()
+                        } else {
+                            self.isNewTargetViewShow.toggle()
+                        }
                     } label: {
                         Image(systemName: "plus")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("PRO") {
+                        self.isProVersionViewShow.toggle()
                     }
                 }
             }
@@ -92,7 +107,7 @@ struct ActiveTargetsView: View {
                 CapsuleProgress(target: target, width: min(reader.size.width / 1.5, 180))
             }
             
-            Text("\(target.currentMoney) / \(target.price)")
+            Text("\(target.currentMoney) / \(target.price) \(target.unwrappedCurrency)")
                 .bold()
                 .lineLimit(1)
             
@@ -112,12 +127,3 @@ struct ActiveTargetsView: View {
         }
     }
 }
-
-#if DEBUG
-struct ActiveTargetView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActiveTargetsView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
-#endif

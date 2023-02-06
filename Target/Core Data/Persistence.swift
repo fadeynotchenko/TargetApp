@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import WidgetKit
 
 struct PersistenceController {
     static let shared = PersistenceController()
@@ -32,8 +33,6 @@ struct PersistenceController {
             
             target.addToActions(action)
         }
-        
-        //
         
         let target2 = TargetEntity(context: viewContext)
         target2.id = UUID()
@@ -68,6 +67,9 @@ struct PersistenceController {
     static func deleteTarget(_ target: TargetEntity, context: NSManagedObjectContext) {
         NotificationHandler.deleteNotification(by: target.unwrappedID.uuidString)
         
+        guard let ud = UserDefaults(suiteName: Constants.appGroup) else { return }
+        ud.removeObject(forKey: target.unwrappedID.uuidString)
+        
         context.delete(target)
         
         save(context: context)
@@ -80,6 +82,42 @@ struct PersistenceController {
             } catch {
                 print(error.localizedDescription)
             }
+            
+            saveWidgetData(context: context)
+        }
+    }
+    
+    private static func saveWidgetData(context: NSManagedObjectContext) {
+        guard let ud = UserDefaults(suiteName: Constants.appGroup) else { return }
+        
+        do {
+            let req = NSFetchRequest<NSFetchRequestResult>(entityName: "TargetEntity")
+            let targets = try context.fetch(req)
+            
+            var widgetTargets: [TargetWidgetEntity] = []
+            
+            for target in targets {
+                if let target = target as? TargetEntity, target.dateFinish == nil {
+                    
+                    let targetWidget = TargetWidgetEntity(id: target.unwrappedID.uuidString, name: target.unwrappedName, price: target.price, current: target.currentMoney, color: target.unwrappedColor, currency: target.unwrappedCurrency)
+                    
+                    //append to UD array
+                    widgetTargets.append(targetWidget)
+                    
+                    //append single entity
+                    if let data = toData(targetWidget) {
+                        ud.set(data, forKey: targetWidget.id)
+                    }
+                }
+            }
+            
+            if let data = toData(widgetTargets) {
+                ud.set(data, forKey: "targets")
+            }
+            
+            WidgetCenter.shared.reloadAllTimelines()
+        } catch {
+            print(error.localizedDescription)
         }
     }
 

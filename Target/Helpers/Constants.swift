@@ -10,4 +10,6 @@ import SwiftUI
 
 class Constants {
     static let isPhone = UIDevice.current.userInterfaceIdiom == .phone
+    
+    static let appGroup = "group.VN.Target"
 }

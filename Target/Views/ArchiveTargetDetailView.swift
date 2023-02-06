@@ -40,7 +40,7 @@ struct ArchiveTargetDetailView: View {
                     Text("accumulated")
                         .foregroundColor(.gray)
                     
-                    Text("\(target.price)")
+                    Text("\(target.price) \(target.unwrappedCurrency)")
                         .bold()
                         .font(.title3)
                 }

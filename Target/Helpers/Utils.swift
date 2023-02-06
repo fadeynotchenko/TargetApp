@@ -31,6 +31,15 @@ enum Tab: CaseIterable {
     case archive
 }
 
+struct TargetWidgetEntity: Codable {
+    let id: String
+    let name: String
+    let price: Int64
+    let current: Int64
+    let color: Data
+    let currency: String
+}
+
 var valueFormatter: NumberFormatter {
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal
@@ -53,5 +62,53 @@ struct OnFirstAppear: ViewModifier {
                     perform()
                 }
             }
+    }
+}
+
+func toData(_ array: [TargetWidgetEntity]) -> Data? {
+    do {
+        let data = try JSONEncoder().encode(array)
+        
+        return data
+    } catch {
+        print("Unable to Encode Note (\(error))")
+        
+        return nil
+    }
+}
+
+func toData(_ target: TargetWidgetEntity) -> Data? {
+    do {
+        let data = try JSONEncoder().encode(target)
+        
+        return data
+    } catch {
+        print("Unable to Encode Note (\(error))")
+        
+        return nil
+    }
+}
+
+func arrayOfTargetWidgetsFromData(data: Data) -> [TargetWidgetEntity]? {
+    do {
+        let arr = try JSONDecoder().decode([TargetWidgetEntity].self, from: data)
+        
+        return arr
+    } catch {
+        print("Unable to Encode Note (\(error))")
+        
+        return nil
+    }
+}
+
+func targetWidgetFromData(data: Data) -> TargetWidgetEntity? {
+    do {
+        let target = try JSONDecoder().decode(TargetWidgetEntity.self, from: data)
+        
+        return target
+    } catch {
+        print("Unable to Encode Note (\(error))")
+        
+        return nil
     }
 }

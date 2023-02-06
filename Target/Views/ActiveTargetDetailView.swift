@@ -82,14 +82,14 @@ struct ActiveTargetDetailView: View {
                         self.getNotificationInfo()
                     }
                 }
-                .onChange(of: scenePhase) { scene in
+                .onChange(of: scenePhase) { _ in
                     self.getNotificationInfo()
                 }
                 .onChange(of: target.currentMoney) { current in
                     self.checkFinish(target.price, current)
                 }
                 .onChange(of: target.price) { price in
-                    self.checkFinish(price, target.price)
+                    self.checkFinish(price, target.currentMoney)
                 }
             } else {
                 Text("placeholder")
@@ -170,10 +170,8 @@ struct ActiveTargetDetailView: View {
 extension ActiveTargetDetailView {
     private func checkFinish(_ price: Int64, _ current: Int64) {
         if current >= price {
-            Task {
-                try await Task.sleep(nanoseconds: 2_000_000_000)
-                
-                self.isFinishViewShow.toggle()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.isFinishViewShow = true
             }
         }
     }

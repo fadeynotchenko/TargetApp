@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import StoreKit
 
 struct FinishView: View {
     
@@ -28,52 +29,46 @@ struct FinishView: View {
                     }
                     
                     Form {
-                        Section {
-                            VStack(spacing: 5) {
-                                Text("Поздравляем!")
-                                    .bold()
-                                    .font(.title)
-                                
-                                Text("Вы достигли своей цели!")
-                                    .bold()
-                                    .font(.title2)
-                                
-                                Text("'\(target.unwrappedName)'")
-                                    .bold()
-                                    .font(.title)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        }
-                        .listRowBackground(Color.clear)
+                        TopViewSection
                         
                         PriceSection
                         
                         CreatedTargetSection(target: target)
                         
-                        Section {
-                            Button {
-                                self.target.dateFinish = Date()
-                                
-                                PersistenceController.save(context: viewContext)
-                                
-                                self.isFinishViewShow.toggle()
-                                self.navSelection = nil
-                            } label: {
-                                Text("Сохранить")
-                                    .bold()
-                                    .foregroundColor(.accentColor)
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                            }
-                        } footer: {
-                            Text("После нажатия на кнопку Ваша цель попадет в архив")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                        }
+                        SaveButtonSection
                     }
                     .frame(maxWidth: 600)
+                }
+                .onAppear {
+                    if let windowScene = UIApplication.shared.windows.first?.windowScene {
+                        SKStoreReviewController.requestReview(in: windowScene)
+                    }
                 }
             }
             .navigationViewStyle(.stack)
         }
+    }
+    
+    private var TopViewSection: some View {
+        Section {
+            VStack(spacing: 5) {
+                Text("finish1")
+                    .bold()
+                    .font(.title)
+                
+                Text("finish2")
+                    .bold()
+                    .foregroundColor(.gray)
+                    .font(.title2)
+                    .multilineTextAlignment(.center)
+                
+                Text("'\(target.unwrappedName)'")
+                    .bold()
+                    .font(.title)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .listRowBackground(Color.clear)
     }
     
     private var PriceSection: some View {
@@ -83,13 +78,35 @@ struct FinishView: View {
                 .padding(.top)
             
             VStack(alignment: .leading, spacing: 5) {
-                Text("Nacopili:")
+                Text("accumulated")
                     .foregroundColor(.gray)
                 
                 Text("\(target.price) \(target.unwrappedCurrency)")
                     .bold()
                     .font(.title3)
             }
+        }
+    }
+    
+    private var SaveButtonSection: some View {
+        Section {
+            Button {
+                self.target.dateFinish = Date()
+                
+                PersistenceController.save(context: viewContext)
+                
+                self.isFinishViewShow.toggle()
+                self.navSelection = nil
+            } label: {
+                Text("save")
+                    .bold()
+                    .foregroundColor(.accentColor)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+        } footer: {
+            Text("finish_hint")
+                .frame(maxWidth: .infinity, alignment: .center)
+                .multilineTextAlignment(.center)
         }
     }
 }

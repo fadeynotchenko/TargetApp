@@ -59,3 +59,8 @@
 "start" = "Started saving:";
 "finish" = "Finished:";
 "archive_empty" = "Targets you have completed will be displayed here";
+
+//Finish
+"finish1" = "Congratulations!";
+"finish2" = "You have saved up for your target!";
+"finish_hint" = "After clicking the button, your target will be archived";
