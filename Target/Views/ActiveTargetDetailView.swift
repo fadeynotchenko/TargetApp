@@ -12,6 +12,8 @@ struct ActiveTargetDetailView: View {
     
     @ObservedObject var target: TargetEntity
     @Binding var navSelection: UUID?
+    @Binding var adViewControllerRepresentable: AdViewControllerRepresentable
+    @Binding var adCoordinator: AdCoordinator
     
     @State private var progress: CGFloat = 0
     
@@ -26,6 +28,8 @@ struct ActiveTargetDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.scenePhase) private var scenePhase
+    
+    @EnvironmentObject private var storeVM: StoreViewModel
     
     private var percent: Int {
         guard target.price != 0 else { return 0 }
@@ -72,11 +76,6 @@ struct ActiveTargetDetailView: View {
                         }
                     }
                 }
-                .onAppear {
-                    self.getNotificationInfo()
-                    
-                    self.checkFinish(target.price, target.currentMoney)
-                }
                 .onChange(of: isEditTargetViewShow) { _ in
                     if self.isEditTargetViewShow == false {
                         self.getNotificationInfo()
@@ -90,6 +89,21 @@ struct ActiveTargetDetailView: View {
                 }
                 .onChange(of: target.price) { price in
                     self.checkFinish(price, target.currentMoney)
+                }
+                .overlay {
+                    adViewControllerRepresentable
+                        .frame(width: .zero, height: .zero)
+                }
+                .onAppear {
+                    self.getNotificationInfo()
+                    
+                    self.checkFinish(target.price, target.currentMoney)
+                    
+                    if storeVM.purchased.isEmpty {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            adCoordinator.presentAd(from: adViewControllerRepresentable.viewController)
+                        }
+                    }
                 }
             } else {
                 Text("placeholder")
@@ -119,6 +133,7 @@ struct ActiveTargetDetailView: View {
                     }
                 }
             }
+            .padding(.vertical, 5)
         }
     }
     
@@ -204,8 +219,9 @@ struct TargetDetailView_Previews: PreviewProvider {
         let req = NSFetchRequest<NSFetchRequestResult>(entityName: "TargetEntity")
         let target = try! PersistenceController.preview.container.viewContext.fetch(req).first as! TargetEntity
         
-        ActiveTargetDetailView(target: target, navSelection: .constant(target.unwrappedID))
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext) 
+        ActiveTargetDetailView(target: target, navSelection: .constant(target.unwrappedID), adViewControllerRepresentable: .constant(AdViewControllerRepresentable()), adCoordinator: .constant(AdCoordinator()))
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environmentObject(StoreViewModel())
     }
 }
 #endif

@@ -75,10 +75,7 @@ class NotificationHandler {
     }
     
     private static func getBody(_ target: TargetEntity) -> String {
-        var str = ""
-        
-        str += " \(NSLocalizedString("nottext", comment: "")) \(target.price) \(String(describing: target.currency))"
-        return str
+        return "\(NSLocalizedString("not", comment: "")) \(target.price) \(String(describing: target.currency))"
     }
 }
 

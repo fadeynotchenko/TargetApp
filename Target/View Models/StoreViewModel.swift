@@ -40,7 +40,7 @@ class StoreViewModel: ObservableObject{
         
     }
     
-    func purchase() async -> Bool{
+    func purchase() async -> Bool {
         guard let product = products.first else { return false }
         do {
             let result = try await product.purchase()

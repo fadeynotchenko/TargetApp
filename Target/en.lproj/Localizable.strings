@@ -64,3 +64,18 @@
 "finish1" = "Congratulations!";
 "finish2" = "You have saved up for your target!";
 "finish_hint" = "After clicking the button, your target will be archived";
+
+//Pro
+"pro_title" = "PRO version";
+"pro1" = "Purchasing the PRO version of the application Execution:";
+"noads" = "Disable ads";
+"nolimit" = "Unlimited Targets";
+"forever" = "Forever";
+"purchased" = "Purchased";
+"restore" = "Restore purchases";
+
+//Widget
+"widget_hint" = "Track the progress of your targets";
+"widget_hint2" = "Select the desired target in the widget settings";
+
+"not" = "Time to replenish the piggy bank";

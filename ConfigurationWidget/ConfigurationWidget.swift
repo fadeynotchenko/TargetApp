@@ -16,6 +16,7 @@ struct Provider: IntentTimelineProvider {
 
     func getSnapshot(for configuration: ConfigurationWidgetIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let entry = SimpleEntry(date: Date(), configuration: configuration, isPreview: true)
+        
         completion(entry)
     }
 
@@ -74,26 +75,36 @@ struct ConfigurationWidgetEntryView : View {
         } else if let target = target {
             WidgetView(target)
         } else {
-            //hint
+            Text("widget_hint2")
+                .padding()
+                .multilineTextAlignment(.center)
         }
     }
     
     private func WidgetView(_ target: TargetWidgetEntity) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(target.name)
-                .bold()
-                .font(.title3)
-                .lineLimit(1)
+        HStack {
+            if widgetFamily == .systemMedium {
+                RectangleIcon(systemName: "sum", color: .purple)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                    .padding(.top)
+            }
             
-            WidgetCapsuleProgress(width: widgetFamily == .systemSmall ? 90 : 200, color: target.color)
-            
-            Text("\(target.current) / \(target.price) \(target.currency)")
-                .bold()
-                .font(widgetFamily == .systemSmall ? .system(size: 16) : .system(size: 19))
-                .lineLimit(2)
+            VStack(alignment: .leading, spacing: 10) {
+                Text(target.name)
+                    .bold()
+                    .font(.title3)
+                    .lineLimit(1)
+                
+                WidgetCapsuleProgress(width: widgetFamily == .systemSmall ? 120 : 200, color: target.color)
+                
+                Text("\(target.current) / \(target.price) \(target.currency)")
+                    .bold()
+                    .font(widgetFamily == .systemSmall ? .system(size: 16) : .system(size: 19))
+                    .lineLimit(2)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.leading)
     }
     
     private func WidgetCapsuleProgress(width: CGFloat, color: Data) -> some View {
@@ -105,10 +116,12 @@ struct ConfigurationWidgetEntryView : View {
                         .fill(.gray.opacity(0.2))
                         .frame(width: width, height: 12)
                     
-                    Text("(\(Int(percent)) %)")
-                        .bold()
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
+                    if widgetFamily == .systemMedium {
+                        Text("(\(Int(percent)) %)")
+                            .bold()
+                            .foregroundColor(.gray)
+                            .font(.subheadline)
+                    }
                 }
             }
             
@@ -126,8 +139,8 @@ struct ConfigurationWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationWidgetIntent.self, provider: Provider()) { entry in
             ConfigurationWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Target Widget")
+        .description("widget_hint")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

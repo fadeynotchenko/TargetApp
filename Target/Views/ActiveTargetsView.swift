@@ -21,6 +21,9 @@ struct ActiveTargetsView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var storeVM: StoreViewModel
     
+    @State private var adViewControllerRepresentable = AdViewControllerRepresentable()
+    @State private var adCoordinator = AdCoordinator()
+    
     var body: some View {
         ZStack {
             List {
@@ -36,7 +39,7 @@ struct ActiveTargetsView: View {
                 ForEach(targets.filter({ $0.dateFinish == nil })) { target in
                     Section {
                         NavigationLink(tag: target.unwrappedID, selection: $navSelection) {
-                            ActiveTargetDetailView(target: target, navSelection: $navSelection)
+                            ActiveTargetDetailView(target: target, navSelection: $navSelection, adViewControllerRepresentable: $adViewControllerRepresentable, adCoordinator: $adCoordinator)
                         } label: {
                             TargetRow(target)
                         }
@@ -70,6 +73,15 @@ struct ActiveTargetsView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("PRO") {
                         self.isProVersionViewShow.toggle()
+                    }
+                }
+            }
+            .onFirstAppear {
+                Task {
+                    await storeVM.fetchProducts()
+                    
+                    if storeVM.purchased.isEmpty {
+                        self.adCoordinator.loadAd()
                     }
                 }
             }

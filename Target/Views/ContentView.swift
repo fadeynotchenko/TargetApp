@@ -34,10 +34,6 @@ struct ContentView: View {
             Text("placeholder")
         }
         .setCurrentNavigationViewStyle()
-        .onAppear {
-            //for load widget data
-            PersistenceController.save(context: viewContext)
-        }
     }
     
     private var CustomTabView: some View {

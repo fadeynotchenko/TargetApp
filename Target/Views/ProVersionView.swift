@@ -45,7 +45,7 @@ struct ProVersionView: View {
                     .frame(width: 150, height: 150)
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                Text("Покупая PRO Версию приложения Вы получаете: ")
+                Text("pro1")
                     .bold()
                     .font(.title3)
                     .multilineTextAlignment(.center)
@@ -59,7 +59,7 @@ struct ProVersionView: View {
             HStack(spacing: 10) {
                 RectangleIcon(systemName: "eye.slash.fill", color: .accentColor)
                 
-                Text(NSLocalizedString("noads", comment: ""))
+                Text("noads")
                     .bold()
                     .font(.title3)
             }
@@ -72,7 +72,7 @@ struct ProVersionView: View {
             HStack(spacing: 10) {
                 RectangleIcon(systemName: "list.bullet", color: .purple)
                 
-                Text(NSLocalizedString("nolimit", comment: ""))
+                Text("nolimit")
                     .bold()
                     .font(.title3)
             }
@@ -84,7 +84,9 @@ struct ProVersionView: View {
         Section {
             Button {
                 Task {
-                    await self.storeVM.purchase()
+                    let isPurchased = await self.storeVM.purchase()
+                    
+                    self.isProVersionViewShow = !isPurchased
                 }
             } label: {
                 if let product = storeVM.products.first, storeVM.purchased.isEmpty {
@@ -97,16 +99,27 @@ struct ProVersionView: View {
                         .foregroundColor(.gray)
                 }
             }
+            .disabled(!storeVM.purchased.isEmpty)
             .frame(maxWidth: .infinity, alignment: .center)
         } footer: {
-            Text("buy_hint")
+            Button("restore") {
+                Task {
+                    let isRestored = await self.storeVM.restore()
+                    
+                    self.isProVersionViewShow = !isRestored
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.top, 10)
         }
     }
 }
 
+#if DEBUG
 struct ProVersionView_Previews: PreviewProvider {
     static var previews: some View {
         ProVersionView(isProVersionViewShow: .constant(true))
             .environmentObject(StoreViewModel())
     }
 }
+#endif
