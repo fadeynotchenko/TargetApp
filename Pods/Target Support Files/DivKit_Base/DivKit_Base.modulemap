@@ -1,0 +1,6 @@
+framework module Base {
+  umbrella header "DivKit_Base-umbrella.h"
+
+  export *
+  module * { export * }
+}

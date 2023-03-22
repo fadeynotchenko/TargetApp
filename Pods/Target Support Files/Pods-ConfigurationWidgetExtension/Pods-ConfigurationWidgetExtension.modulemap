@@ -1,0 +1,6 @@
+framework module Pods_ConfigurationWidgetExtension {
+  umbrella header "Pods-ConfigurationWidgetExtension-umbrella.h"
+
+  export *
+  module * { export * }
+}

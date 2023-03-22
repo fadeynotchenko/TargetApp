@@ -34,6 +34,8 @@ class StoreViewModel: ObservableObject{
         switch state {
         case .verified(let transaction):
             purchased.append(transaction.productID)
+            
+            await transaction.finish()
         case .unverified:
             break
         }
@@ -42,6 +44,7 @@ class StoreViewModel: ObservableObject{
     
     func purchase() async -> Bool {
         guard let product = products.first else { return false }
+        
         do {
             let result = try await product.purchase()
             
@@ -50,6 +53,9 @@ class StoreViewModel: ObservableObject{
                 switch verify {
                 case .verified(let transaction):
                     purchased.append(transaction.productID)
+                    
+                    await transaction.finish()
+                    
                     return true
                 case .unverified:
                     break

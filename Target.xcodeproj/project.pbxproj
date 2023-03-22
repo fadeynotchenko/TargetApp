@@ -36,6 +36,7 @@
 		434DFABD298D6308004CD60B /* Target_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 434DFABB298D6308004CD60B /* Target_app.xcdatamodeld */; };
 		434DFABF298D6337004CD60B /* ArchiveTargetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DFABE298D6337004CD60B /* ArchiveTargetDetailView.swift */; };
 		434DFAC1298D687B004CD60B /* ActionsHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DFAC0298D687B004CD60B /* ActionsHistorySection.swift */; };
+		435A1BDE29CB3AD800CC4107 /* StoreConfiguration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 435A1BDD29CB3AD800CC4107 /* StoreConfiguration.storekit */; };
 		4365A0C629914D9B00FA6E7F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 430E2A1A29870C4B00147C45 /* Localizable.strings */; };
 		4365A0C729914D9B00FA6E7F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 430E2A1A29870C4B00147C45 /* Localizable.strings */; };
 		4365A0C82991805100FA6E7F /* RectangleIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4348143F2987E19100FE7C68 /* RectangleIcon.swift */; };
@@ -64,7 +65,6 @@
 		43F295692991015700F9F81A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E2A222987129900147C45 /* Extensions.swift */; };
 		43F295872991191900F9F81A /* ProVersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F295862991191900F9F81A /* ProVersionView.swift */; };
 		43F2958929911B0B00F9F81A /* StoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F2958829911B0B00F9F81A /* StoreViewModel.swift */; };
-		43F2958C29911F6A00F9F81A /* Store Kit Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 43F2958B29911F6A00F9F81A /* Store Kit Configuration.storekit */; };
 		9AB6A6A100AD48E070829FF2 /* Pods_ConfigurationWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED97DA8AC93BAD5077724C7B /* Pods_ConfigurationWidgetExtension.framework */; };
 		AC7D38BDB55CA5E0430AB0C9 /* Pods_ConfigurationWidgetIntent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44438848FFE750306BAA9FDC /* Pods_ConfigurationWidgetIntent.framework */; };
 		E41403FB936C792D4E856FF5 /* Pods_Target.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45903950E917EB65BD05A635 /* Pods_Target.framework */; };
@@ -115,7 +115,6 @@
 		430E2A1D29870CD800147C45 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		430E2A222987129900147C45 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4315F790298823CD00F8759B /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
-		4315F79A29882CA000F8759B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4315F79B298832A300F8759B /* ActiveTargetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTargetDetailView.swift; sourceTree = "<group>"; };
 		4315F79D2988383E00F8759B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		43228550299137FC0036EF53 /* InterstitialAd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterstitialAd.swift; path = "../../../../Documents/Target-App-Store-/Target/Helpers/InterstitialAd.swift"; sourceTree = "<group>"; };
@@ -134,26 +133,24 @@
 		434DFABC298D6308004CD60B /* Target.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Target.xcdatamodel; sourceTree = "<group>"; };
 		434DFABE298D6337004CD60B /* ArchiveTargetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTargetDetailView.swift; sourceTree = "<group>"; };
 		434DFAC0298D687B004CD60B /* ActionsHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsHistorySection.swift; sourceTree = "<group>"; };
+		435A1BD929CB385B00CC4107 /* IntentHandlerExtension.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = IntentHandlerExtension.entitlements; sourceTree = SOURCE_ROOT; };
+		435A1BDB29CB385B00CC4107 /* Target.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Target.entitlements; path = ../Target.entitlements; sourceTree = "<group>"; };
+		435A1BDC29CB386D00CC4107 /* TargetWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TargetWidgetExtension.entitlements; sourceTree = SOURCE_ROOT; };
+		435A1BDD29CB3AD800CC4107 /* StoreConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreConfiguration.storekit; sourceTree = "<group>"; };
 		435CD11729900C4800811C32 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		435CD11929900C4800811C32 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		435CD12D29900C5700811C32 /* Target.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Target.entitlements; sourceTree = "<group>"; };
-		435CD12E29900C7A00811C32 /* ActiveTargetsWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ActiveTargetsWidgetExtension.entitlements; sourceTree = "<group>"; };
 		435CD13429900E1F00811C32 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
-		435CD1B829901FEE00811C32 /* TargetWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TargetWidgetExtension.entitlements; sourceTree = "<group>"; };
 		43F2953A2990F27600F9F81A /* ConfigurationWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ConfigurationWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F2953E2990F27600F9F81A /* ConfigurationWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationWidgetBundle.swift; sourceTree = "<group>"; };
 		43F295402990F27600F9F81A /* ConfigurationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationWidget.swift; sourceTree = "<group>"; };
 		43F295422990F27600F9F81A /* ConfigurationWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = ConfigurationWidget.intentdefinition; sourceTree = "<group>"; };
 		43F295432990F27800F9F81A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		43F295452990F27800F9F81A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		43F2954E2990F27E00F9F81A /* ConfigurationWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConfigurationWidgetExtension.entitlements; sourceTree = "<group>"; };
 		43F295532990F30A00F9F81A /* ConfigurationWidgetIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ConfigurationWidgetIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F295562990F30A00F9F81A /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		43F295582990F30A00F9F81A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		43F295652990FB5900F9F81A /* ConfigurationWidgetIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConfigurationWidgetIntent.entitlements; sourceTree = "<group>"; };
 		43F295862991191900F9F81A /* ProVersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProVersionView.swift; sourceTree = "<group>"; };
 		43F2958829911B0B00F9F81A /* StoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewModel.swift; sourceTree = "<group>"; };
-		43F2958B29911F6A00F9F81A /* Store Kit Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Store Kit Configuration.storekit"; sourceTree = "<group>"; };
 		44438848FFE750306BAA9FDC /* Pods_ConfigurationWidgetIntent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConfigurationWidgetIntent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		457945B637CFD774CD14D541 /* Pods-ConfigurationWidgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConfigurationWidgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-ConfigurationWidgetExtension/Pods-ConfigurationWidgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		45903950E917EB65BD05A635 /* Pods_Target.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Target.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,9 +210,6 @@
 		430E29EA2986FFE200147C45 = {
 			isa = PBXGroup;
 			children = (
-				43F2954E2990F27E00F9F81A /* ConfigurationWidgetExtension.entitlements */,
-				435CD1B829901FEE00811C32 /* TargetWidgetExtension.entitlements */,
-				435CD12E29900C7A00811C32 /* ActiveTargetsWidgetExtension.entitlements */,
 				430E29F52986FFE200147C45 /* Target */,
 				43F2953D2990F27600F9F81A /* ConfigurationWidget */,
 				43F295552990F30A00F9F81A /* ConfigurationWidgetIntent */,
@@ -238,9 +232,10 @@
 		430E29F52986FFE200147C45 /* Target */ = {
 			isa = PBXGroup;
 			children = (
-				435CD12D29900C5700811C32 /* Target.entitlements */,
-				4315F79A29882CA000F8759B /* Info.plist */,
 				430E29F62986FFE200147C45 /* TargetApp.swift */,
+				435A1BD929CB385B00CC4107 /* IntentHandlerExtension.entitlements */,
+				435A1BDC29CB386D00CC4107 /* TargetWidgetExtension.entitlements */,
+				435A1BDB29CB385B00CC4107 /* Target.entitlements */,
 				43F2958A29911B0F00F9F81A /* View Models */,
 				430E2A1529870AAD00147C45 /* Views */,
 				430E2A1C29870CCA00147C45 /* Helpers */,
@@ -299,7 +294,7 @@
 				430E2A222987129900147C45 /* Extensions.swift */,
 				4315F79D2988383E00F8759B /* Constants.swift */,
 				43228550299137FC0036EF53 /* InterstitialAd.swift */,
-				43F2958B29911F6A00F9F81A /* Store Kit Configuration.storekit */,
+				435A1BDD29CB3AD800CC4107 /* StoreConfiguration.storekit */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -343,7 +338,6 @@
 		43F295552990F30A00F9F81A /* ConfigurationWidgetIntent */ = {
 			isa = PBXGroup;
 			children = (
-				43F295652990FB5900F9F81A /* ConfigurationWidgetIntent.entitlements */,
 				43F295562990F30A00F9F81A /* IntentHandler.swift */,
 				43F295582990F30A00F9F81A /* Info.plist */,
 			);
@@ -472,10 +466,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43F2958C29911F6A00F9F81A /* Store Kit Configuration.storekit in Resources */,
 				430E29FE2986FFE300147C45 /* Preview Assets.xcassets in Resources */,
 				430E2A1829870C4B00147C45 /* Localizable.strings in Resources */,
 				430E29FB2986FFE300147C45 /* Assets.xcassets in Resources */,
+				435A1BDE29CB3AD800CC4107 /* StoreConfiguration.storekit in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,7 +811,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Target/Target.entitlements;
+				CODE_SIGN_ENTITLEMENTS = /Users/fadeynotchenko/Documents/TargetApp/Target.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Target/Preview Content\"";
@@ -835,7 +829,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = VN.Target;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -851,7 +845,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Target/Target.entitlements;
+				CODE_SIGN_ENTITLEMENTS = /Users/fadeynotchenko/Documents/TargetApp/Target.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Target/Preview Content\"";
@@ -869,7 +863,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = VN.Target;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -884,7 +878,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = ConfigurationWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = /Users/fadeynotchenko/Documents/TargetApp/TargetWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CQ3SGH4DSY;
@@ -914,7 +908,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = ConfigurationWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = /Users/fadeynotchenko/Documents/TargetApp/TargetWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CQ3SGH4DSY;
@@ -942,7 +936,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 835DA655BBC4B16B1EE08BD2 /* Pods-ConfigurationWidgetIntent.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = ConfigurationWidgetIntent/ConfigurationWidgetIntent.entitlements;
+				CODE_SIGN_ENTITLEMENTS = /Users/fadeynotchenko/Documents/TargetApp/IntentHandlerExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CQ3SGH4DSY;
@@ -970,7 +964,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CDE497BB79657D9595725528 /* Pods-ConfigurationWidgetIntent.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = ConfigurationWidgetIntent/ConfigurationWidgetIntent.entitlements;
+				CODE_SIGN_ENTITLEMENTS = /Users/fadeynotchenko/Documents/TargetApp/IntentHandlerExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CQ3SGH4DSY;

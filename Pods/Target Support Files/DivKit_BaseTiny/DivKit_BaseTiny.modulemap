@@ -1,0 +1,6 @@
+framework module BaseTiny {
+  umbrella header "DivKit_BaseTiny-umbrella.h"
+
+  export *
+  module * { export * }
+}

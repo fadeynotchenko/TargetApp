@@ -1,0 +1,61 @@
+framework module YandexMobileAds {
+  umbrella header "YandexMobileAds-umbrella.h"
+
+  export *
+  module * { export * }
+  
+  header "YMANativeBulkAdLoaderDelegate.h"
+  header "YMANativeBulkAdLoader.h"
+  header "YMANativeAdLoader.h"
+  header "YMAAudioSessionManagerDelegate.h"
+  header "YMANativeVideoPlaybackMuteControl.h"
+  header "YMAVideoController.h"
+  header "YMARating.h"
+  header "YMANativeVideoPlaybackMuteControlDelegate.h"
+  header "YMANativeAdType.h"
+  header "YMAAudioSessionManager.h"
+  header "YMADeviceTypes.h"
+  header "YMANativeAdMedia.h"
+  header "YMAMutableNativeAdRequestConfiguration.h"
+  header "YMAAdTheme.h"
+  header "YMANativeBannerView.h"
+  header "YMANativeAdView.h"
+  header "YMANativeImageLoadingObserver.h"
+  header "YMANativeAd.h"
+  header "YMABidderTokenLoader.h"
+  header "YMAReward.h"
+  header "YMAImpressionData.h"
+  header "YMAAdView.h"
+  header "YMAErrors.h"
+  header "YMANativeAdVideoController.h"
+  header "YMAGender.h"
+  header "YandexMobileAds.h"
+  header "YMANativeVideoPlaybackProgressControl.h"
+  header "YMAVersion.h"
+  header "YandexMobileNativeAds.h"
+  header "YMANativeVideoControlsCustomizable.h"
+  header "YMANativeAdRequestConfiguration.h"
+  header "YMAMobileAds.h"
+  header "YMANativeVideoPlaybackControls.h"
+  header "YMAInterstitialAd.h"
+  header "YMANativeTemplateAppearance.h"
+  header "YMAAdSize.h"
+  header "YMANativeAdErrors.h"
+  header "YMANativeAdDelegate.h"
+  header "YMANativeMediaView.h"
+  header "YMAVideoDelegate.h"
+  header "YMANativeAdAssets.h"
+  header "YMARewardedAd.h"
+  header "YMANativeAdImage.h"
+  header "YMANativeAssetsAppearance.h"
+  header "YMANativeAdVideoControllerProvider.h"
+  header "YMAAdRequest.h"
+
+}
+
+module YandexMobileAds.Swift {
+  header "YandexMobileAds-Swift.h"
+
+  requires objc
+}
+

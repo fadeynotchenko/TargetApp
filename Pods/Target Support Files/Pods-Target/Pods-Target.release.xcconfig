@@ -1,0 +1,16 @@
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/DivKit" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_Base" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_BaseTiny" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_BaseUI" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_CommonCore" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_LayoutKit" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_LayoutKitInterface" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_Networking" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_Serialization" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_TemplatesSupport" "${PODS_ROOT}/YandexMobileAds/static" "${PODS_ROOT}/YandexMobileAdsInstream" "${PODS_ROOT}/YandexMobileMetrica/static" "${PODS_XCFRAMEWORKS_BUILD_DIR}/YandexMobileAds" "${PODS_XCFRAMEWORKS_BUILD_DIR}/YandexMobileAdsInstream" "${PODS_XCFRAMEWORKS_BUILD_DIR}/YandexMobileMetrica/Static/Core" "${PODS_XCFRAMEWORKS_BUILD_DIR}/YandexMobileMetrica/Static/Crashes"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+GENERATE_INFOPLIST_FILE = YES
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/DivKit/DivKit.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_Base/Base.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_BaseTiny/BaseTiny.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_BaseUI/BaseUI.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_CommonCore/CommonCore.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_LayoutKit/LayoutKit.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_LayoutKitInterface/LayoutKitInterface.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_Networking/Networking.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_Serialization/Serialization.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/DivKit_TemplatesSupport/TemplatesSupport.framework/Headers"
+LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/lib/swift '@executable_path/Frameworks' '@loader_path/Frameworks'
+LIBRARY_SEARCH_PATHS = $(inherited) "${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}" /usr/lib/swift
+OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"sqlite3" -l"z" -framework "AVFoundation" -framework "AdSupport" -framework "Base" -framework "BaseTiny" -framework "BaseUI" -framework "CommonCore" -framework "CoreGraphics" -framework "CoreImage" -framework "CoreLocation" -framework "CoreMedia" -framework "CoreTelephony" -framework "DivKit" -framework "Foundation" -framework "LayoutKit" -framework "LayoutKitInterface" -framework "Networking" -framework "QuartzCore" -framework "Serialization" -framework "StoreKit" -framework "SystemConfiguration" -framework "TemplatesSupport" -framework "UIKit" -framework "WebKit" -framework "YandexMobileAds" -framework "YandexMobileAdsInstream" -framework "YandexMobileMetrica" -framework "YandexMobileMetricaCrashes" -weak_framework "WebKit"
+OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
+PODS_BUILD_DIR = ${BUILD_DIR}
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
+PODS_ROOT = ${SRCROOT}/Pods
+PODS_XCFRAMEWORKS_BUILD_DIR = $(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates
+USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES

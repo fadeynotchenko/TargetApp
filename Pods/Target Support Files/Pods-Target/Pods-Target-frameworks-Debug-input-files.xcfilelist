@@ -1,0 +1,11 @@
+${PODS_ROOT}/Target Support Files/Pods-Target/Pods-Target-frameworks.sh
+${BUILT_PRODUCTS_DIR}/DivKit/DivKit.framework
+${BUILT_PRODUCTS_DIR}/DivKit_Base/Base.framework
+${BUILT_PRODUCTS_DIR}/DivKit_BaseTiny/BaseTiny.framework
+${BUILT_PRODUCTS_DIR}/DivKit_BaseUI/BaseUI.framework
+${BUILT_PRODUCTS_DIR}/DivKit_CommonCore/CommonCore.framework
+${BUILT_PRODUCTS_DIR}/DivKit_LayoutKit/LayoutKit.framework
+${BUILT_PRODUCTS_DIR}/DivKit_LayoutKitInterface/LayoutKitInterface.framework
+${BUILT_PRODUCTS_DIR}/DivKit_Networking/Networking.framework
+${BUILT_PRODUCTS_DIR}/DivKit_Serialization/Serialization.framework
+${BUILT_PRODUCTS_DIR}/DivKit_TemplatesSupport/TemplatesSupport.framework

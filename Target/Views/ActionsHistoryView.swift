@@ -47,7 +47,7 @@ struct ActionsHistoryView: View {
             .font(.title3)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
-            .background(.ultraThinMaterial)
+            .background(.ultraThickMaterial)
     }
     
     private func ActionRow(_ action: ActionEntity) -> some View {

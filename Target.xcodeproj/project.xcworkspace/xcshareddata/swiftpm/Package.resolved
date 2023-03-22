@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "anyformatkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/luximetr/AnyFormatKit",
+      "state" : {
+        "revision" : "ae3a965164005b07f81d6aa066520d7ad14ea54e",
+        "version" : "2.5.2"
+      }
+    },
+    {
+      "identity" : "anyformatkitswiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/luximetr/AnyFormatKitSwiftUI",
+      "state" : {
+        "revision" : "09cb509f5982e66eff69af7f335047a4e2aa004b",
+        "version" : "0.5.3"
+      }
+    }
+  ],
+  "version" : 2
+}

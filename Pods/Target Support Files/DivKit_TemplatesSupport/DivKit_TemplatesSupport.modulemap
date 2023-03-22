@@ -1,0 +1,6 @@
+framework module TemplatesSupport {
+  umbrella header "DivKit_TemplatesSupport-umbrella.h"
+
+  export *
+  module * { export * }
+}

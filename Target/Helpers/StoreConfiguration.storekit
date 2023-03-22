@@ -1,0 +1,50 @@
+{
+  "identifier" : "96821E9F",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "1643923170",
+      "localizations" : [
+        {
+          "description" : "Неограниченное количество целей",
+          "displayName" : "Полная версия",
+          "locale" : "ru"
+        }
+      ],
+      "productID" : "com.Target.Full.Version",
+      "referenceName" : "Full Version",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "1643940757",
+      "localizations" : [
+        {
+          "description" : "Неограниченное количество целей",
+          "displayName" : "Полная версия",
+          "locale" : "ru"
+        }
+      ],
+      "productID" : "com.temporary.VN.Target",
+      "referenceName" : "Target Full Version",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1642544455",
+    "_developerTeamID" : "CQ3SGH4DSY",
+    "_lastSynchronizedDate" : 701184731.76798403
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

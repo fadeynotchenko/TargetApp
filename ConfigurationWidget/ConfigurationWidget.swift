@@ -82,11 +82,10 @@ struct ConfigurationWidgetEntryView : View {
     }
     
     private func WidgetView(_ target: TargetWidgetEntity) -> some View {
-        HStack {
+        HStack(alignment: .firstTextBaseline) {
             if widgetFamily == .systemMedium {
                 RectangleIcon(systemName: "sum", color: .purple)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .padding(.top)
+                    .offset(y: 20)
             }
             
             VStack(alignment: .leading, spacing: 10) {
@@ -102,9 +101,9 @@ struct ConfigurationWidgetEntryView : View {
                     .font(widgetFamily == .systemSmall ? .system(size: 16) : .system(size: 19))
                     .lineLimit(2)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading)
+            .frame(maxHeight: .infinity, alignment: .center)
         }
+        .padding()
     }
     
     private func WidgetCapsuleProgress(width: CGFloat, color: Data) -> some View {
@@ -148,6 +147,6 @@ struct ConfigurationWidget: Widget {
 struct ConfigurationWidget_Previews: PreviewProvider {
     static var previews: some View {
         ConfigurationWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationWidgetIntent(), isPreview: true))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
